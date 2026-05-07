@@ -1,0 +1,2337 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[    102665,       2329]
+NotebookOptionsPosition[    100568,       2283]
+NotebookOutlinePosition[    100964,       2299]
+CellTagsIndexPosition[    100921,       2296]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell["MICA: Measurement, Instrumentation, Control and Analysis", "Section",
+ CellChangeTimes->{{3.777731644083204*^9, 3.777731779790965*^9}},
+ TextAlignment->Center,ExpressionUUID->"046831f1-8b76-4e56-9dca-9f81a0e5043d"],
+
+Cell[CellGroupData[{
+
+Cell[TextData[StyleBox["Auto- and Cross-Correlation Function Demo",
+ FontWeight->"Bold",
+ FontColor->GrayLevel[0]]], "Section",
+ CellChangeTimes->{{3.7794602524929657`*^9, 3.7794602627786074`*^9}, {
+   3.780579372633925*^9, 3.780579377632752*^9}, {3.781270117259837*^9, 
+   3.7812701180721397`*^9}, {3.781299085940478*^9, 3.7812990896427298`*^9}, 
+   3.781352021192113*^9, {3.782400818310824*^9, 3.78240082205414*^9}, {
+   3.795796900064168*^9, 3.7957969131777515`*^9}, {3.969716337913333*^9, 
+   3.9697163471530046`*^9}, {3.969725993074291*^9, 3.969726024426602*^9}, {
+   3.9701530270754633`*^9, 3.970153033764112*^9}, {3.9719667710374126`*^9, 
+   3.971966772398761*^9}, {3.971966807035488*^9, 3.9719668075889883`*^9}, {
+   3.9848399539588337`*^9, 3.9848399653586683`*^9}},
+ TextAlignment->Center,ExpressionUUID->"6f0478f5-1aa9-4205-981d-9a2faa3f0076"],
+
+Cell["\<\
+Ian Hunter, 
+14 April 2025\
+\>", "Subsubsection",
+ CellChangeTimes->CompressedData["
+1:eJxTTMoPSmViYGBQAGIQPXtlU3ux6hvHDIONs0A054YJhRVAunzDDjDd1Nb8
+pVT9jeOJz8++guhFIeF/Z2m9cbQ79xlM38hbOFVG+43j1oKNYPpy89JeM503
+jiwMK8F07dr3Jq66bxyvzP1oCqLncZ+yjtIDmsd9Hkyfijx2bZ7RG8cExYvX
+QXTswTk6/PZAc2/P1gPRb/vDOGQcgfYubQHTpgc2l79wf+MYcCSrAkQvvdPz
+pG/+G0etxLanIJrhlH6JmPJbx3nhUeUgWvLJnBoQbbZ3NZjOebzpk6HxW8eO
+h+pfQLSPX6djXN5bxz5lVycQHcvRJx+Z/9bxXvJcMK0k/UT836S3ji2N4hIg
+Ou+uVJ/W5LeOe5otwfTfrGDV2ilAc9YkgmnDdxH6WVOB5k+JAtPWM12XLQbS
+f/6uANOC2wqve08Dql/VcgNEZ72aZ35g1ltHl4wzYJrH/Zk1iH7AsMMGRJfY
+uaVGzwba5/kITD/6vvltEpBuK7/7DkTv1jjNsWb9W8dNBjs4QfSuBS8nXwfS
+1eVvwPTbp3s8tTa8dbzzdz+YZmRLnFcFpMWcwueDaADTPAeH
+  "],
+ TextAlignment->Center,ExpressionUUID->"ce4a2b52-5de3-4509-b6fd-f10d3d7c91bf"],
+
+Cell[CellGroupData[{
+
+Cell["Revisions", "Subsubsection",
+ CellChangeTimes->{{3.895001072993277*^9, 
+  3.895001079622945*^9}},ExpressionUUID->"c6ee832c-07ad-4dcb-839f-\
+55609c9583fe"],
+
+Cell["\<\
+2026\t\tApr\t10\tStarted
+\t\t\t
+\
+\>", "Text",
+ CellChangeTimes->CompressedData["
+1:eJxTTMoPSmViYGCQB2IQ/eqFBoMC61vHAPfHzCA6+nhNaiTPW8eaP5uzQbTp
+0uOr58m8dTzy/85aEO3IvOSKoPJbx32GfvdB9HUWxxwxIF0Wlwamb3j4fzM0
+fus4oaT7J4hmVSo56gSkC0NijoHoF1prNrkAaYXL/7eCaNZfK53i8t46cnlO
+dwXRKqnnL4NoE9YJV0C0jXWNTieQvvL5Mpi+dt9GITL/reMyLVZ1EL15ximJ
+f5PeOj5d+UMaRPc0p+jKTAbqT6o2BtFXRbTW6ADpVdKOYFqpc/0HbyDdrfHx
+F4h2kTASWwSk1+nsUAbREf+uXlkGpKPSgm6D6BWSwqK1U946fjI7LwGiOe7M
+XfgVSG8qil0Cor9dPv0ARPPnl74E0SUam3Kzpr51FGoyywfRPaF9CxcD6dVL
+3i0C0RMmXr/pPe2t44E93XdAtMLs5wYHZr11tN7+0AxEh0YvTIueDQznKzsy
+QXTcsUKuNevfOioyLxEE0WYqi+9cA9I7Pj68C6IFPj3suQ6kBd3O94PoRc5b
++LU2AOPtQaowiE778v5pBZB+wGj/AkQDAOOjAXs=
+  "],ExpressionUUID->"02b2e6f9-b2d9-48a3-8c87-c614bc46dc31"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Keywords", "Subsubsection",
+ CellChangeTimes->{{3.8950011521921034`*^9, 
+  3.8950011540714774`*^9}},ExpressionUUID->"6c96e224-15a8-4f78-9133-\
+0d056e12f09f"],
+
+Cell["\<\
+Auto-Correlation Function, Cross-Correlation Function, Gaussian White Noise, \
+Second-order Low Pass Filter, Correlation Function Lag, \
+\>", "Text",
+ CellChangeTimes->{{3.910700855173557*^9, 3.910700939779601*^9}, {
+  3.910701018740958*^9, 3.910701048876916*^9}, {3.910701211541093*^9, 
+  3.910701215340085*^9}, {3.910714435279737*^9, 3.910714678834653*^9}, {
+  3.9191565504861317`*^9, 3.919156550644785*^9}, {3.969542982766057*^9, 
+  3.969542987415156*^9}, {3.969543025684534*^9, 3.969543125825247*^9}, {
+  3.9695431682741337`*^9, 3.969543219963472*^9}, {3.970164947467864*^9, 
+  3.9701649509924603`*^9}, {3.97041237042343*^9, 3.970412378294159*^9}, {
+  3.97076816005556*^9, 3.970768162213531*^9}, {3.9845016238976173`*^9, 
+  3.984501685961577*^9}, {3.984501725848826*^9, 3.984501762304517*^9}, {
+  3.984501830104508*^9, 3.98450185789701*^9}, {3.984501895873353*^9, 
+  3.984501907419379*^9}, {3.984504301107141*^9, 3.984504387601593*^9}, {
+  3.984504417951433*^9, 3.98450444386791*^9}, {3.98483642289817*^9, 
+  3.984836473718014*^9}},ExpressionUUID->"2dad5f2e-a966-453f-9544-\
+b9e42258e89c"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Objectives", "Subsubsection",
+ CellChangeTimes->{{3.777730627291581*^9, 3.777730650059589*^9}, {
+  3.780420495007248*^9, 
+  3.780420498367403*^9}},ExpressionUUID->"f5654ee7-6bb4-4e0e-b9eb-\
+1acfef97c3b3"],
+
+Cell["\<\
+In the following we show how the cross-correlation function between a signal \
+x and a signal y is determined. The auto-correlation function is simply the \
+cross-correlation function between a signal and itself (i.e. x = y). 
+Note: that the cross-correlation function values  for positive and negative \
+lag values (i.le,. shifts between x and y) are different. In contrast, the \
+auto-correlation values for positive and negative lags are the same (i.e. the \
+auto-correlation function is symmetric about lag 0 whereas the \
+cross-correlation is not. \
+\>", "Text",
+ CellChangeTimes->{{3.795792637159613*^9, 3.795793460878191*^9}, {
+   3.795793497478001*^9, 3.795793876154686*^9}, {3.795793916938582*^9, 
+   3.795793966336678*^9}, {3.795794001200252*^9, 3.7957940824750032`*^9}, {
+   3.795796053815051*^9, 3.795796074506651*^9}, {3.795796111797822*^9, 
+   3.795796111891233*^9}, {3.795965073191126*^9, 3.7959650853695903`*^9}, 
+   3.79596516467314*^9, {3.797239742146985*^9, 3.797239742861068*^9}, 
+   3.8419274179990473`*^9, {3.841927496011288*^9, 3.8419276107841454`*^9}, {
+   3.841927728568209*^9, 3.841927772826125*^9}, {3.9107102565276756`*^9, 
+   3.910710288071786*^9}, {3.910710343672055*^9, 3.9107106719512405`*^9}, 
+   3.910711633560255*^9, {3.9191565777743816`*^9, 3.919156578934387*^9}, 
+   3.9191566127490406`*^9, {3.950178988320469*^9, 3.9501790310876913`*^9}, {
+   3.950266766901586*^9, 3.950266770116702*^9}, {3.969716548035804*^9, 
+   3.969716759049933*^9}, {3.9697167911328*^9, 3.969716955583425*^9}, {
+   3.9697169857342033`*^9, 3.96971737072225*^9}, {3.969717424511647*^9, 
+   3.969717586696678*^9}, {3.969717623137238*^9, 3.969717679925585*^9}, {
+   3.9697261984921017`*^9, 3.969726572810769*^9}, {3.969726700633334*^9, 
+   3.969726703437751*^9}, {3.969726736645939*^9, 3.969726807630919*^9}, {
+   3.9699871760955687`*^9, 3.969987423894044*^9}, {3.9699874799375057`*^9, 
+   3.9699876838647614`*^9}, {3.969987726368348*^9, 3.9699877460420218`*^9}, {
+   3.970164985974989*^9, 3.970164988314562*^9}, {3.970412403093502*^9, 
+   3.970412633071766*^9}, {3.984501924666155*^9, 3.984501947314375*^9}, {
+   3.98483648575274*^9, 
+   3.9848367878849688`*^9}},ExpressionUUID->"137c9b53-486b-4b32-98f4-\
+9686c64addaf"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Signal Generation", "Subsubsection",
+ CellChangeTimes->{{3.984836799234193*^9, 
+  3.984836802208681*^9}},ExpressionUUID->"cd2e4c7f-054e-47cc-8b90-\
+a3dfac9f8885"],
+
+Cell["\<\
+In the following we generate signal x as a Gaussian white noise signal \
+sampled at 10 kHz for 1,000 samples (i.e. signal duration = 0.1 s). 
+We pass x into a second-order low-pass system with a static gain of 2, \
+natural frequency of 1 kHz and damping parameter of 0.3. We compute the \
+cross- correlation function between x and y as well as the auto-correlation \
+functions of x and y. We also show the result of multiplying x and or y by -1.\
+\>", "Text",
+ CellChangeTimes->{{3.984836807790463*^9, 3.984836986290359*^9}, {
+  3.9848393142274942`*^9, 
+  3.98483937535972*^9}},ExpressionUUID->"5176c657-91db-4a5c-9dee-\
+3f282bdbc223"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Notes", "Subsubsection",
+ CellChangeTimes->{{3.984839477917611*^9, 
+  3.984839479078392*^9}},ExpressionUUID->"4700d0ce-a4cc-452a-a647-\
+b0e753eda4f5"],
+
+Cell["\<\
+Notice that the multiplying x or y by -1 has no effect on the \
+auto-correlation functions. However, notice that if either x or y is \
+multiplied by -1 the cross-correlation function is flipped upside down. Note \
+also that the auto-correlation functions are symmetric about 0 lag, where as \
+the cross-correlation function is asymmetric about 0 lag. 
+To reset the demo go to the Evaluation tab and select Evaluate Notebook.\
+\>", "Text",
+ CellChangeTimes->{{3.984839485556938*^9, 3.984839673990828*^9}, {
+  3.9850867362530413`*^9, 
+  3.9850867779601307`*^9}},ExpressionUUID->"1dc0d4c3-1615-43d7-911e-\
+c14e78d658ee"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Demo", "Subsubsection",
+ CellChangeTimes->{{3.985003403894989*^9, 
+  3.9850034046153107`*^9}},ExpressionUUID->"1a1a8937-a2e6-409c-9ffb-\
+4f2a3ee9468e"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"Cross", "-", 
+    RowBox[{"Correlation", " ", "Interactive", " ", "Demonstration"}]}], 
+   "*)"}], 
+  RowBox[{"(*", 
+   RowBox[{"Multiple", " ", "input", " ", "signal", " ", "options"}], "*)"}], 
+  
+  RowBox[{
+   RowBox[{
+    RowBox[{"SeedRandom", "[", "42", "]"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"fs", "=", "50000"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"dt", "=", 
+     RowBox[{"1", "/", "fs"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"nSamples", "=", "1000"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"mMax", "=", "100"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"axMin", "=", 
+     RowBox[{"-", "mMax"}]}], ";", 
+    RowBox[{"axMax", "=", 
+     RowBox[{"nSamples", "+", "mMax", "-", "1"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"nTransient", "=", "500"}], ";"}], "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{"Second", "-", 
+     RowBox[{"order", " ", "system", " ", "parameters"}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"Kdc", "=", "2"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"fn", "=", "1000"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"wn", "=", 
+     RowBox[{"2", " ", "Pi", " ", "fn"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"zeta", "=", "0.3"}], ";"}], "\[IndentingNewLine]", "\n", 
+   RowBox[{
+    RowBox[{"sosCont", "=", 
+     RowBox[{"TransferFunctionModel", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"{", 
+         RowBox[{"Kdc", " ", 
+          RowBox[{
+           RowBox[{"wn", "^", "2"}], "/", 
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"s", "^", "2"}], "+", 
+             RowBox[{"2", " ", "zeta", " ", "wn", " ", "s"}], "+", 
+             RowBox[{"wn", "^", "2"}]}], ")"}]}]}], "}"}], "}"}], ",", "s"}], 
+      "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"sosDisc", "=", 
+     RowBox[{"ToDiscreteTimeModel", "[", 
+      RowBox[{"sosCont", ",", "dt"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\n", 
+   RowBox[{"(*", 
+    RowBox[{"First", "-", 
+     RowBox[{"order", " ", "LPF", " ", "for", " ", "band"}], "-", 
+     RowBox[{"limited", " ", "noise"}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"wcLPF", "=", 
+     RowBox[{"2", " ", "Pi", " ", "1000"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"lpfCont", "=", 
+     RowBox[{"TransferFunctionModel", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"{", 
+         RowBox[{"wcLPF", "/", 
+          RowBox[{"(", 
+           RowBox[{"s", "+", "wcLPF"}], ")"}]}], "}"}], "}"}], ",", "s"}], 
+      "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"lpfDisc", "=", 
+     RowBox[{"ToDiscreteTimeModel", "[", 
+      RowBox[{"lpfCont", ",", "dt"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\n", 
+   RowBox[{"(*", 
+    RowBox[{"Generate", " ", "all", " ", "input", " ", "signals"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"whiteAll", "=", 
+     RowBox[{"RandomVariate", "[", 
+      RowBox[{
+       RowBox[{"NormalDistribution", "[", "]"}], ",", 
+       RowBox[{"nSamples", "+", "nTransient"}]}], "]"}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{"1", ":", 
+     RowBox[{"White", " ", "noise"}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"xWhite", "=", 
+     RowBox[{"Take", "[", 
+      RowBox[{"whiteAll", ",", 
+       RowBox[{"-", "nSamples"}]}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"xWhite", "=", 
+     RowBox[{"xWhite", "/", 
+      RowBox[{"Max", "[", 
+       RowBox[{"Abs", "[", "xWhite", "]"}], "]"}]}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{"2", ":", 
+     RowBox[{"Band", "-", 
+      RowBox[{"limited", " ", "noise"}]}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"blAll", "=", 
+     RowBox[{"Flatten", "[", 
+      RowBox[{"OutputResponse", "[", 
+       RowBox[{"lpfDisc", ",", "whiteAll"}], "]"}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"xBandLim", "=", 
+     RowBox[{"Take", "[", 
+      RowBox[{"blAll", ",", 
+       RowBox[{"-", "nSamples"}]}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"xBandLim", "=", 
+     RowBox[{"xBandLim", "/", 
+      RowBox[{"Max", "[", 
+       RowBox[{"Abs", "[", "xBandLim", "]"}], "]"}]}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{"3", ":", 
+     RowBox[{"Sinusoid", " ", "in", " ", "noise"}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"sinPure", "=", 
+     RowBox[{"Table", "[", 
+      RowBox[{
+       RowBox[{"Sin", "[", 
+        RowBox[{"2", " ", "Pi", " ", "1000", " ", 
+         RowBox[{"k", "/", "fs"}]}], "]"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"k", ",", "0", ",", 
+         RowBox[{"nSamples", "-", "1"}]}], "}"}]}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"noiseForSin", "=", 
+     RowBox[{"Take", "[", 
+      RowBox[{
+       RowBox[{"RandomVariate", "[", 
+        RowBox[{
+         RowBox[{"NormalDistribution", "[", "]"}], ",", 
+         RowBox[{"nSamples", "+", "nTransient"}]}], "]"}], ",", 
+       RowBox[{"-", "nSamples"}]}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"xSinNoise", "=", 
+     RowBox[{
+      RowBox[{"0.3", "sinPure"}], "+", "noiseForSin"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"xSinNoise", "=", 
+     RowBox[{"xSinNoise", "/", 
+      RowBox[{"Max", "[", 
+       RowBox[{"Abs", "[", "xSinNoise", "]"}], "]"}]}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{"4", ":", 
+     RowBox[{"Brownian", " ", "motion"}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"brownAll", "=", 
+     RowBox[{"Accumulate", "[", 
+      RowBox[{"RandomVariate", "[", 
+       RowBox[{
+        RowBox[{"NormalDistribution", "[", "]"}], ",", 
+        RowBox[{"nSamples", "+", "nTransient"}]}], "]"}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"xBrown", "=", 
+     RowBox[{"Take", "[", 
+      RowBox[{"brownAll", ",", 
+       RowBox[{"-", "nSamples"}]}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"xBrown", "=", 
+     RowBox[{"xBrown", "-", 
+      RowBox[{"Mean", "[", "xBrown", "]"}]}]}], ";"}], " ", 
+   RowBox[{"(*", 
+    RowBox[{"remove", " ", "DC"}], "*)"}], "\n", 
+   RowBox[{
+    RowBox[{"xBrown", "=", 
+     RowBox[{"xBrown", "/", 
+      RowBox[{"Max", "[", 
+       RowBox[{"Abs", "[", "xBrown", "]"}], "]"}]}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{"Generate", " ", "y", " ", "for", " ", "each", " ", "input"}], 
+    "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"filterX", "[", "xIn_", "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"xAll", ",", "yAll", ",", "yOut"}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"xAll", "=", 
+         RowBox[{"Join", "[", 
+          RowBox[{
+           RowBox[{"ConstantArray", "[", 
+            RowBox[{"0.", ",", "nTransient"}], "]"}], ",", "xIn"}], "]"}]}], ";",
+         "\[IndentingNewLine]", 
+        RowBox[{"yAll", "=", 
+         RowBox[{"Flatten", "[", 
+          RowBox[{"OutputResponse", "[", 
+           RowBox[{"sosDisc", ",", "xAll"}], "]"}], "]"}]}], ";", 
+        "\[IndentingNewLine]", 
+        RowBox[{"yOut", "=", 
+         RowBox[{"Take", "[", 
+          RowBox[{"yAll", ",", 
+           RowBox[{"-", "nSamples"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"yOut", "/", 
+         RowBox[{"Max", "[", 
+          RowBox[{"Abs", "[", "yOut", "]"}], "]"}]}]}]}], "]"}]}], ";"}], 
+   "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"yWhite", "=", 
+     RowBox[{"filterX", "[", "xWhite", "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"yBandLim", "=", 
+     RowBox[{"filterX", "[", "xBandLim", "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"ySinNoise", "=", 
+     RowBox[{"filterX", "[", "xSinNoise", "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"yBrown", "=", 
+     RowBox[{"filterX", "[", "xBrown", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Precompute", " ", "correlations", " ", "for", " ", "all", " ", "input", " ",
+      "types"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"computeCorr", "[", 
+      RowBox[{"sig1_", ",", "sig2_"}], "]"}], ":=", 
+     RowBox[{"Association", "@", 
+      RowBox[{"Table", "[", 
+       RowBox[{
+        RowBox[{"Module", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"s", "=", "0."}], ",", "tlo", ",", "thi"}], "}"}], ",", 
+          RowBox[{
+           RowBox[{"tlo", "=", 
+            RowBox[{"Max", "[", 
+             RowBox[{"0", ",", 
+              RowBox[{"-", "tau"}]}], "]"}]}], ";", 
+           RowBox[{"thi", "=", 
+            RowBox[{"Min", "[", 
+             RowBox[{
+              RowBox[{"nSamples", "-", "1"}], ",", 
+              RowBox[{"nSamples", "-", "1", "-", "tau"}]}], "]"}]}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"Do", "[", 
+            RowBox[{
+             RowBox[{"s", "+=", 
+              RowBox[{
+               RowBox[{"sig1", "[", 
+                RowBox[{"[", 
+                 RowBox[{"t", "+", "1"}], "]"}], "]"}], "*", 
+               RowBox[{"sig2", "[", 
+                RowBox[{"[", 
+                 RowBox[{"t", "+", "tau", "+", "1"}], "]"}], "]"}]}]}], ",", 
+             RowBox[{"{", 
+              RowBox[{"t", ",", "tlo", ",", "thi"}], "}"}]}], "]"}], ";", 
+           "\[IndentingNewLine]", 
+           RowBox[{"tau", "->", 
+            RowBox[{"s", "/", "nSamples"}]}]}]}], "]"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"tau", ",", 
+          RowBox[{"-", "mMax"}], ",", "mMax"}], "}"}]}], "]"}]}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Store", " ", "all", " ", "signals", " ", "and", " ", "correlations"}], 
+    "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"signalData", "=", 
+     RowBox[{"<|", 
+      RowBox[{
+       RowBox[{"\"\<white\>\"", "->", 
+        RowBox[{"<|", 
+         RowBox[{
+          RowBox[{"\"\<x\>\"", "->", "xWhite"}], ",", 
+          RowBox[{"\"\<y\>\"", "->", "yWhite"}], ",", 
+          RowBox[{"\"\<xx\>\"", "->", 
+           RowBox[{"computeCorr", "[", 
+            RowBox[{"xWhite", ",", "xWhite"}], "]"}]}], ",", 
+          RowBox[{"\"\<yy\>\"", "->", 
+           RowBox[{"computeCorr", "[", 
+            RowBox[{"yWhite", ",", "yWhite"}], "]"}]}], ",", 
+          RowBox[{"\"\<xy\>\"", "->", 
+           RowBox[{"computeCorr", "[", 
+            RowBox[{"xWhite", ",", "yWhite"}], "]"}]}], ",", 
+          
+          RowBox[{"\"\<label\>\"", 
+           "->", "\"\<x[t]: Gaussian white noise\>\""}]}], "|>"}]}], ",", 
+       RowBox[{"\"\<bandlim\>\"", "->", 
+        RowBox[{"<|", 
+         RowBox[{
+          RowBox[{"\"\<x\>\"", "->", "xBandLim"}], ",", 
+          RowBox[{"\"\<y\>\"", "->", "yBandLim"}], ",", 
+          RowBox[{"\"\<xx\>\"", "->", 
+           RowBox[{"computeCorr", "[", 
+            RowBox[{"xBandLim", ",", "xBandLim"}], "]"}]}], ",", 
+          RowBox[{"\"\<yy\>\"", "->", 
+           RowBox[{"computeCorr", "[", 
+            RowBox[{"yBandLim", ",", "yBandLim"}], "]"}]}], ",", 
+          RowBox[{"\"\<xy\>\"", "->", 
+           RowBox[{"computeCorr", "[", 
+            RowBox[{"xBandLim", ",", "yBandLim"}], "]"}]}], ",", 
+          
+          RowBox[{"\"\<label\>\"", 
+           "->", "\"\<x[t]: Band-limited noise (1st-order LPF, 1 \
+kHz)\>\""}]}], "|>"}]}], ",", 
+       RowBox[{"\"\<sinnoise\>\"", "->", 
+        RowBox[{"<|", 
+         RowBox[{
+          RowBox[{"\"\<x\>\"", "->", "xSinNoise"}], ",", 
+          RowBox[{"\"\<y\>\"", "->", "ySinNoise"}], ",", 
+          RowBox[{"\"\<xx\>\"", "->", 
+           RowBox[{"computeCorr", "[", 
+            RowBox[{"xSinNoise", ",", "xSinNoise"}], "]"}]}], ",", 
+          RowBox[{"\"\<yy\>\"", "->", 
+           RowBox[{"computeCorr", "[", 
+            RowBox[{"ySinNoise", ",", "ySinNoise"}], "]"}]}], ",", 
+          RowBox[{"\"\<xy\>\"", "->", 
+           RowBox[{"computeCorr", "[", 
+            RowBox[{"xSinNoise", ",", "ySinNoise"}], "]"}]}], ",", 
+          
+          RowBox[{"\"\<label\>\"", 
+           "->", "\"\<x[t]: 1 kHz sinusoid + noise\>\""}]}], "|>"}]}], ",", 
+       RowBox[{"\"\<brown\>\"", "->", 
+        RowBox[{"<|", 
+         RowBox[{
+          RowBox[{"\"\<x\>\"", "->", "xBrown"}], ",", 
+          RowBox[{"\"\<y\>\"", "->", "yBrown"}], ",", 
+          RowBox[{"\"\<xx\>\"", "->", 
+           RowBox[{"computeCorr", "[", 
+            RowBox[{"xBrown", ",", "xBrown"}], "]"}]}], ",", 
+          RowBox[{"\"\<yy\>\"", "->", 
+           RowBox[{"computeCorr", "[", 
+            RowBox[{"yBrown", ",", "yBrown"}], "]"}]}], ",", 
+          RowBox[{"\"\<xy\>\"", "->", 
+           RowBox[{"computeCorr", "[", 
+            RowBox[{"xBrown", ",", "yBrown"}], "]"}]}], ",", 
+          RowBox[{"\"\<label\>\"", "->", "\"\<x[t]: Brownian motion\>\""}]}], 
+         "|>"}]}]}], "|>"}]}], ";"}], "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", "Layout", "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"prodZero", "=", 
+     RowBox[{"-", "3.0"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"sepY", "=", 
+     RowBox[{"-", "1.7"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"prodMargin", "=", "1.35"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"plotBottom", "=", 
+     RowBox[{"prodZero", "-", "prodMargin"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"sigMax", "=", "1.3"}], ";", 
+    RowBox[{"sigMin", "=", 
+     RowBox[{"-", "sigMax"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"commonPadding", "=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"60", ",", "60"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"40", ",", "20"}], "}"}]}], "}"}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{"Max", " ", "product", " ", "per", " ", "input", " ", "type"}], 
+    "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"maxAbsProds", "=", 
+     RowBox[{"Association", "@", 
+      RowBox[{"Table", "[", 
+       RowBox[{
+        RowBox[{"Module", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"xSig", "=", 
+             RowBox[{
+              RowBox[{"signalData", "[", "mode", "]"}], "[", "\"\<x\>\"", 
+              "]"}]}], ",", 
+            RowBox[{"ySig", "=", 
+             RowBox[{
+              RowBox[{"signalData", "[", "mode", "]"}], "[", "\"\<y\>\"", 
+              "]"}]}], ",", "mp"}], "}"}], ",", 
+          RowBox[{
+           RowBox[{"mp", "=", 
+            RowBox[{"Max", "@", 
+             RowBox[{"Flatten", "@", 
+              RowBox[{"Table", "[", 
+               RowBox[{
+                RowBox[{"Module", "[", 
+                 RowBox[{
+                  RowBox[{"{", 
+                   RowBox[{"sig1", ",", "sig2", ",", "tlo", ",", "thi"}], 
+                   "}"}], ",", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"sig1", ",", "sig2"}], "}"}], "=", "combo"}], ";",
+                    "\[IndentingNewLine]", 
+                   RowBox[{"tlo", "=", 
+                    RowBox[{"Max", "[", 
+                    RowBox[{"0", ",", 
+                    RowBox[{"-", "tau"}]}], "]"}]}], ";", 
+                   RowBox[{"thi", "=", 
+                    RowBox[{"Min", "[", 
+                    RowBox[{
+                    RowBox[{"nSamples", "-", "1"}], ",", 
+                    RowBox[{"nSamples", "-", "1", "-", "tau"}]}], "]"}]}], ";",
+                    "\[IndentingNewLine]", 
+                   RowBox[{"Abs", "[", 
+                    RowBox[{"Table", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"sig1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"t", "+", "1"}], "]"}], "]"}], "*", 
+                    RowBox[{"sig2", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"t", "+", "tau", "+", "1"}], "]"}], "]"}]}], ",", 
+                    
+                    RowBox[{"{", 
+                    RowBox[{"t", ",", "tlo", ",", "thi"}], "}"}]}], "]"}], 
+                    "]"}]}]}], "]"}], ",", 
+                RowBox[{"{", 
+                 RowBox[{"combo", ",", 
+                  RowBox[{"{", 
+                   RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"xSig", ",", "ySig"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"xSig", ",", "xSig"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"ySig", ",", "ySig"}], "}"}]}], "}"}]}], "}"}], ",", 
+                RowBox[{"{", 
+                 RowBox[{"tau", ",", 
+                  RowBox[{"-", "mMax"}], ",", "mMax", ",", "20"}], "}"}]}], 
+               "]"}]}]}]}], ";", 
+           RowBox[{"(*", 
+            RowBox[{
+            "sample", " ", "every", " ", "20", " ", "for", " ", "speed"}], 
+            "*)"}], 
+           RowBox[{"mode", "->", "mp"}]}]}], "]"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"mode", ",", 
+          RowBox[{"{", 
+           
+           RowBox[{"\"\<white\>\"", ",", "\"\<bandlim\>\"", 
+            ",", "\"\<sinnoise\>\"", ",", "\"\<brown\>\""}], "}"}]}], "}"}]}],
+        "]"}]}]}], ";"}], "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{"Custom", " ", "slider"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"customSlider", "[", 
+      RowBox[{
+       RowBox[{"Dynamic", "[", "val_", "]"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"lo_", ",", "hi_", ",", "step_"}], "}"}], ",", "width_"}], 
+      "]"}], ":=", 
+     RowBox[{"DynamicModule", "[", 
+      RowBox[{
+       RowBox[{"{", "pos", "}"}], ",", 
+       RowBox[{
+        RowBox[{"pos", "=", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"Rescale", "[", 
+            RowBox[{"val", ",", 
+             RowBox[{"{", 
+              RowBox[{"lo", ",", "hi"}], "}"}], ",", 
+             RowBox[{"{", 
+              RowBox[{"0", ",", "width"}], "}"}]}], "]"}], ",", "0"}], 
+          "}"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"LocatorPane", "[", 
+         RowBox[{
+          RowBox[{"Dynamic", "[", 
+           RowBox[{"pos", ",", 
+            RowBox[{
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"pos", "=", 
+                RowBox[{"{", 
+                 RowBox[{
+                  RowBox[{"Clip", "[", 
+                   RowBox[{
+                    RowBox[{"#", "[", 
+                    RowBox[{"[", "1", "]"}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", "width"}], "}"}]}], "]"}], ",", "0"}], 
+                 "}"}]}], ";", "\[IndentingNewLine]", 
+               RowBox[{"val", "=", 
+                RowBox[{"Round", "[", 
+                 RowBox[{
+                  RowBox[{"Rescale", "[", 
+                   RowBox[{
+                    RowBox[{"pos", "[", 
+                    RowBox[{"[", "1", "]"}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", "width"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"lo", ",", "hi"}], "}"}]}], "]"}], ",", "step"}], 
+                 "]"}]}]}], ")"}], "&"}]}], "]"}], ",", 
+          RowBox[{"Graphics", "[", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{
+              RowBox[{"{", 
+               RowBox[{
+                RowBox[{"GrayLevel", "[", "0.78", "]"}], ",", 
+                RowBox[{"AbsoluteThickness", "[", "4", "]"}], ",", 
+                RowBox[{"Line", "[", 
+                 RowBox[{"{", 
+                  RowBox[{
+                   RowBox[{"{", 
+                    RowBox[{"0", ",", "0"}], "}"}], ",", 
+                   RowBox[{"{", 
+                    RowBox[{"width", ",", "0"}], "}"}]}], "}"}], "]"}]}], 
+               "}"}], ",", 
+              RowBox[{"{", 
+               RowBox[{
+                RowBox[{"GrayLevel", "[", "0.6", "]"}], ",", 
+                RowBox[{"AbsoluteThickness", "[", "1", "]"}], ",", 
+                RowBox[{"Line", "[", 
+                 RowBox[{"{", 
+                  RowBox[{
+                   RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Rescale", "[", 
+                    RowBox[{"0", ",", 
+                    RowBox[{"{", 
+                    RowBox[{"lo", ",", "hi"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", "width"}], "}"}]}], "]"}], ",", 
+                    RowBox[{"-", "5"}]}], "}"}], ",", 
+                   RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Rescale", "[", 
+                    RowBox[{"0", ",", 
+                    RowBox[{"{", 
+                    RowBox[{"lo", ",", "hi"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", "width"}], "}"}]}], "]"}], ",", "5"}], 
+                    "}"}]}], "}"}], "]"}]}], "}"}]}], "}"}], ",", 
+            RowBox[{"PlotRange", "->", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"{", 
+                RowBox[{
+                 RowBox[{"-", "10"}], ",", 
+                 RowBox[{"width", "+", "10"}]}], "}"}], ",", 
+               RowBox[{"{", 
+                RowBox[{
+                 RowBox[{"-", "10"}], ",", "10"}], "}"}]}], "}"}]}], ",", 
+            RowBox[{"ImageSize", "->", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"width", "+", "20"}], ",", "24"}], "}"}]}], ",", 
+            RowBox[{"ImagePadding", "->", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"{", 
+                RowBox[{"10", ",", "10"}], "}"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"0", ",", "0"}], "}"}]}], "}"}]}]}], "]"}], ",", 
+          RowBox[{"LocatorAutoCreate", "->", "False"}], ",", 
+          RowBox[{"Appearance", "->", 
+           RowBox[{"Graphics", "[", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"GrayLevel", "[", "0.4", "]"}], ",", 
+               RowBox[{"Disk", "[", 
+                RowBox[{
+                 RowBox[{"{", 
+                  RowBox[{"0", ",", "0"}], "}"}], ",", "6"}], "]"}]}], "}"}], 
+             ",", 
+             RowBox[{"ImageSize", "->", "14"}]}], "]"}]}]}], "]"}]}]}], 
+      "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{"DynamicModule", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"currentLag", "=", "0"}], ",", 
+       RowBox[{"corrMode", "=", "\"\<Rxy\>\""}], ",", 
+       RowBox[{"flipX", "=", "False"}], ",", 
+       RowBox[{"flipY", "=", "False"}], ",", 
+       RowBox[{"inputMode", "=", "\"\<white\>\""}]}], "}"}], ",", 
+     RowBox[{"Column", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"(*", 
+         RowBox[{
+          RowBox[{"Row", " ", "1"}], ":", 
+          RowBox[{
+          "Lag", " ", "slider", " ", "and", " ", "correlation", " ", 
+           "mode"}]}], "*)"}], 
+        RowBox[{
+         RowBox[{"Row", "[", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"Style", "[", 
+             RowBox[{"\"\<Lag \[Tau] : \>\"", ",", "Bold", ",", "14"}], "]"}],
+             ",", 
+            RowBox[{"Slider", "[", 
+             RowBox[{
+              RowBox[{"Dynamic", "[", "currentLag", "]"}], ",", 
+              RowBox[{"{", 
+               RowBox[{
+                RowBox[{"-", "mMax"}], ",", "mMax", ",", "1"}], "}"}], ",", 
+              RowBox[{"ImageSize", "->", "300"}]}], "]"}], ",", 
+            RowBox[{"Spacer", "[", "12", "]"}], ",", 
+            RowBox[{"Dynamic", "[", 
+             RowBox[{"Style", "[", 
+              RowBox[{"currentLag", ",", "Bold", ",", "18", ",", "Red"}], 
+              "]"}], "]"}], ",", 
+            RowBox[{"Spacer", "[", "20", "]"}], ",", 
+            RowBox[{"Style", "[", 
+             RowBox[{"\"\<Corr: \>\"", ",", "Bold", ",", "12"}], "]"}], ",", 
+            RowBox[{"PopupMenu", "[", 
+             RowBox[{
+              RowBox[{"Dynamic", "[", "corrMode", "]"}], ",", 
+              RowBox[{"{", 
+               RowBox[{
+                RowBox[{"\"\<Rxy\>\"", "->", 
+                 RowBox[{"Row", "[", 
+                  RowBox[{"{", 
+                   RowBox[{
+                    RowBox[{"Subscript", "[", 
+                    RowBox[{"\"\<R\>\"", ",", "\"\<xy\>\""}], "]"}], 
+                    ",", "\"\< (cross)\>\""}], "}"}], "]"}]}], ",", 
+                RowBox[{"\"\<Rxx\>\"", "->", 
+                 RowBox[{"Row", "[", 
+                  RowBox[{"{", 
+                   RowBox[{
+                    RowBox[{"Subscript", "[", 
+                    RowBox[{"\"\<R\>\"", ",", "\"\<xx\>\""}], "]"}], 
+                    ",", "\"\< (auto x)\>\""}], "}"}], "]"}]}], ",", 
+                RowBox[{"\"\<Ryy\>\"", "->", 
+                 RowBox[{"Row", "[", 
+                  RowBox[{"{", 
+                   RowBox[{
+                    RowBox[{"Subscript", "[", 
+                    RowBox[{"\"\<R\>\"", ",", "\"\<yy\>\""}], "]"}], 
+                    ",", "\"\< (auto y)\>\""}], "}"}], "]"}]}]}], "}"}]}], 
+             "]"}], ",", 
+            RowBox[{"Spacer", "[", "15", "]"}], ",", 
+            RowBox[{"Button", "[", 
+             RowBox[{
+              RowBox[{"Dynamic", "[", 
+               RowBox[{"If", "[", 
+                RowBox[{
+                "flipX", ",", "\"\<Restore x\>\"", ",", "\"\<Negate x\>\""}], 
+                "]"}], "]"}], ",", 
+              RowBox[{"flipX", "=", 
+               RowBox[{"!", "flipX"}]}], ",", 
+              RowBox[{"ImageSize", "->", 
+               RowBox[{"{", 
+                RowBox[{"80", ",", "24"}], "}"}]}]}], "]"}], ",", 
+            RowBox[{"Spacer", "[", "5", "]"}], ",", 
+            RowBox[{"Button", "[", 
+             RowBox[{
+              RowBox[{"Dynamic", "[", 
+               RowBox[{"If", "[", 
+                RowBox[{
+                "flipY", ",", "\"\<Restore y\>\"", ",", "\"\<Negate y\>\""}], 
+                "]"}], "]"}], ",", 
+              RowBox[{"flipY", "=", 
+               RowBox[{"!", "flipY"}]}], ",", 
+              RowBox[{"ImageSize", "->", 
+               RowBox[{"{", 
+                RowBox[{"80", ",", "24"}], "}"}]}]}], "]"}]}], "}"}], "]"}], ",", 
+         RowBox[{"(*", 
+          RowBox[{
+           RowBox[{"Row", " ", "2"}], ":", 
+           RowBox[{"Input", " ", "signal", " ", "selection"}]}], "*)"}], 
+         RowBox[{"Row", "[", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"Style", "[", 
+             RowBox[{"\"\<Input x[t]: \>\"", ",", "Bold", ",", "12"}], "]"}], 
+            ",", 
+            RowBox[{"PopupMenu", "[", 
+             RowBox[{
+              RowBox[{"Dynamic", "[", "inputMode", "]"}], ",", 
+              RowBox[{"{", 
+               RowBox[{
+                RowBox[{"\"\<white\>\"", "->", "\"\<White noise\>\""}], ",", 
+                
+                RowBox[{"\"\<bandlim\>\"", 
+                 "->", "\"\<Band-limited noise (1 kHz LPF)\>\""}], ",", 
+                
+                RowBox[{"\"\<sinnoise\>\"", 
+                 "->", "\"\<Sinusoid (1 kHz) + noise\>\""}], ",", 
+                RowBox[{"\"\<brown\>\"", "->", "\"\<Brownian motion\>\""}]}], 
+               "}"}]}], "]"}]}], "}"}], "]"}], ",", 
+         RowBox[{"Spacer", "[", "5", "]"}], ",", 
+         RowBox[{"Dynamic", "@", 
+          RowBox[{"Module", "[", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{
+              RowBox[{"tau", "=", "currentLag"}], ",", 
+              RowBox[{"sd", "=", 
+               RowBox[{"signalData", "[", "inputMode", "]"}]}], ",", "sig1", ",",
+               "sig2", ",", "activeCorr", ",", "flipSign", ",", "sig1Name", ",",
+               "sig2Name", ",", "sig1Color", ",", "sig2Color", ",", 
+              "oStartPos", ",", "oEndPos", ",", "ov", ",", "products", ",", 
+              "corrVal", ",", "prodBars", ",", "sig1Line", ",", "sig2Overlap",
+               ",", "sig2Beyond", ",", "meanLine", ",", "meanLabel", ",", 
+              "overlapBracket", ",", "shadingX", ",", "shadingYbeyond", ",", 
+              "shadingXonly", ",", "bracketY", ",", "separator", ",", 
+              "prodZeroLine", ",", "prodLabelLeft", ",", "yos", ",", "yoe", ",",
+               "xSig", ",", "ySig", ",", "corrXXd", ",", "corrYYd", ",", 
+              "corrXYd", ",", "pScale", ",", "maxProd", ",", "pTickStep", ",",
+               "revStart", ",", "revEnd", ",", "cMin", ",", "cMax", ",", 
+              "margin", ",", "corrLabel", ",", "corrMinV", ",", "corrMaxV"}], 
+             "}"}], ",", 
+            RowBox[{
+             RowBox[{"xSig", "=", 
+              RowBox[{"sd", "[", "\"\<x\>\"", "]"}]}], ";", 
+             RowBox[{"ySig", "=", 
+              RowBox[{"sd", "[", "\"\<y\>\"", "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"corrXXd", "=", 
+              RowBox[{"sd", "[", "\"\<xx\>\"", "]"}]}], ";", 
+             RowBox[{"corrYYd", "=", 
+              RowBox[{"sd", "[", "\"\<yy\>\"", "]"}]}], ";", 
+             RowBox[{"corrXYd", "=", 
+              RowBox[{"sd", "[", "\"\<xy\>\"", "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"maxProd", "=", 
+              RowBox[{"maxAbsProds", "[", "inputMode", "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"sig1", "=", 
+              RowBox[{"If", "[", 
+               RowBox[{"flipX", ",", 
+                RowBox[{"-", "xSig"}], ",", "xSig"}], "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"sig2", "=", 
+              RowBox[{"Switch", "[", 
+               RowBox[{"corrMode", ",", "\"\<Rxy\>\"", ",", 
+                RowBox[{"If", "[", 
+                 RowBox[{"flipY", ",", 
+                  RowBox[{"-", "ySig"}], ",", "ySig"}], "]"}], 
+                ",", "\"\<Rxx\>\"", ",", 
+                RowBox[{"If", "[", 
+                 RowBox[{"flipX", ",", 
+                  RowBox[{"-", "xSig"}], ",", "xSig"}], "]"}], 
+                ",", "\"\<Ryy\>\"", ",", 
+                RowBox[{"If", "[", 
+                 RowBox[{"flipY", ",", 
+                  RowBox[{"-", "ySig"}], ",", "ySig"}], "]"}]}], "]"}]}], ";",
+              "\[IndentingNewLine]", 
+             RowBox[{"flipSign", "=", 
+              RowBox[{"Switch", "[", 
+               RowBox[{"corrMode", ",", "\"\<Rxy\>\"", ",", 
+                RowBox[{"If", "[", 
+                 RowBox[{
+                  RowBox[{"Xor", "[", 
+                   RowBox[{"flipX", ",", "flipY"}], "]"}], ",", 
+                  RowBox[{"-", "1"}], ",", "1"}], "]"}], ",", "\"\<Rxx\>\"", ",",
+                 "1", ",", "\"\<Ryy\>\"", ",", "1"}], "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"activeCorr", "=", 
+              RowBox[{"Association", "@", 
+               RowBox[{"Table", "[", 
+                RowBox[{
+                 RowBox[{"t2", "->", 
+                  RowBox[{"flipSign", "*", 
+                   RowBox[{"Switch", "[", 
+                    RowBox[{"corrMode", ",", "\"\<Rxy\>\"", ",", 
+                    RowBox[{"corrXYd", "[", "t2", "]"}], ",", "\"\<Rxx\>\"", ",", 
+                    RowBox[{"corrXXd", "[", "t2", "]"}], ",", "\"\<Ryy\>\"", ",", 
+                    RowBox[{"corrYYd", "[", "t2", "]"}]}], "]"}]}]}], ",", 
+                 RowBox[{"{", 
+                  RowBox[{"t2", ",", 
+                   RowBox[{"-", "mMax"}], ",", "mMax"}], "}"}]}], "]"}]}]}], ";",
+              "\[IndentingNewLine]", 
+             RowBox[{
+              RowBox[{"{", 
+               RowBox[{"sig1Name", ",", "sig2Name"}], "}"}], "=", 
+              RowBox[{"Switch", "[", 
+               RowBox[{"corrMode", ",", "\"\<Rxy\>\"", ",", 
+                RowBox[{"{", 
+                 RowBox[{
+                  RowBox[{"If", "[", 
+                   RowBox[{
+                   "flipX", ",", "\"\<-x[t]\>\"", ",", "\"\<x[t]\>\""}], 
+                   "]"}], ",", 
+                  RowBox[{"If", "[", 
+                   RowBox[{
+                   "flipY", ",", "\"\<-y[t+\[Tau]]\>\"", 
+                    ",", "\"\<y[t+\[Tau]]\>\""}], "]"}]}], "}"}], 
+                ",", "\"\<Rxx\>\"", ",", 
+                RowBox[{"{", 
+                 RowBox[{
+                  RowBox[{"If", "[", 
+                   RowBox[{
+                   "flipX", ",", "\"\<-x[t]\>\"", ",", "\"\<x[t]\>\""}], 
+                   "]"}], ",", 
+                  RowBox[{"If", "[", 
+                   RowBox[{
+                   "flipX", ",", "\"\<-x[t+\[Tau]]\>\"", 
+                    ",", "\"\<x[t+\[Tau]]\>\""}], "]"}]}], "}"}], 
+                ",", "\"\<Ryy\>\"", ",", 
+                RowBox[{"{", 
+                 RowBox[{
+                  RowBox[{"If", "[", 
+                   RowBox[{
+                   "flipY", ",", "\"\<-y[t]\>\"", ",", "\"\<y[t]\>\""}], 
+                   "]"}], ",", 
+                  RowBox[{"If", "[", 
+                   RowBox[{
+                   "flipY", ",", "\"\<-y[t+\[Tau]]\>\"", 
+                    ",", "\"\<y[t+\[Tau]]\>\""}], "]"}]}], "}"}]}], "]"}]}], ";",
+              "\[IndentingNewLine]", 
+             RowBox[{"sig1Color", "=", 
+              RowBox[{"Switch", "[", 
+               RowBox[{
+               "corrMode", ",", "\"\<Rxy\>\"", ",", "Blue", ",", "\"\<Rxx\>\"",
+                 ",", "Blue", ",", "\"\<Ryy\>\"", ",", "Red"}], "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"sig2Color", "=", 
+              RowBox[{"Switch", "[", 
+               RowBox[{
+               "corrMode", ",", "\"\<Rxy\>\"", ",", "Red", ",", "\"\<Rxx\>\"",
+                 ",", 
+                RowBox[{"Darker", "[", 
+                 RowBox[{"Blue", ",", "0.3"}], "]"}], ",", "\"\<Ryy\>\"", ",", 
+                RowBox[{"Darker", "[", 
+                 RowBox[{"Red", ",", "0.3"}], "]"}]}], "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"If", "[", 
+              RowBox[{
+               RowBox[{"corrMode", "==", "\"\<Ryy\>\""}], ",", 
+               RowBox[{"sig1", "=", 
+                RowBox[{"If", "[", 
+                 RowBox[{"flipY", ",", 
+                  RowBox[{"-", "ySig"}], ",", "ySig"}], "]"}]}]}], "]"}], ";",
+              "\[IndentingNewLine]", 
+             RowBox[{"oStartPos", "=", 
+              RowBox[{"Max", "[", 
+               RowBox[{"0", ",", 
+                RowBox[{"-", "tau"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"oEndPos", "=", 
+              RowBox[{"Min", "[", 
+               RowBox[{
+                RowBox[{"nSamples", "-", "1"}], ",", 
+                RowBox[{"nSamples", "-", "1", "-", "tau"}]}], "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"ov", "=", 
+              RowBox[{"Max", "[", 
+               RowBox[{"0", ",", 
+                RowBox[{"oEndPos", "-", "oStartPos", "+", "1"}]}], "]"}]}], ";",
+              "\[IndentingNewLine]", 
+             RowBox[{"products", "=", 
+              RowBox[{"Table", "[", 
+               RowBox[{
+                RowBox[{"{", 
+                 RowBox[{"t", ",", 
+                  RowBox[{
+                   RowBox[{"sig1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"t", "+", "1"}], "]"}], "]"}], "*", 
+                   RowBox[{"sig2", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"t", "+", "tau", "+", "1"}], "]"}], "]"}]}]}], 
+                 "}"}], ",", 
+                RowBox[{"{", 
+                 RowBox[{"t", ",", "oStartPos", ",", "oEndPos"}], "}"}]}], 
+               "]"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"corrVal", "=", 
+              RowBox[{"activeCorr", "[", "tau", "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"pScale", "=", 
+              RowBox[{"1.3", "/", 
+               RowBox[{"Max", "[", 
+                RowBox[{"maxProd", ",", "0.001"}], "]"}]}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"pTickStep", "=", 
+              RowBox[{"Round", "[", 
+               RowBox[{
+                RowBox[{"maxProd", "/", "3"}], ",", "0.1"}], "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"If", "[", 
+              RowBox[{
+               RowBox[{"pTickStep", "==", "0"}], ",", 
+               RowBox[{"pTickStep", "=", 
+                RowBox[{"Max", "[", 
+                 RowBox[{"0.01", ",", 
+                  RowBox[{"maxProd", "/", "3"}]}], "]"}]}]}], "]"}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"shadingX", "=", 
+              RowBox[{"{", 
+               RowBox[{
+                RowBox[{"Opacity", "[", "0.04", "]"}], ",", "sig1Color", ",", 
+                
+                RowBox[{"Rectangle", "[", 
+                 RowBox[{
+                  RowBox[{"{", 
+                   RowBox[{"0", ",", "sigMin"}], "}"}], ",", 
+                  RowBox[{"{", 
+                   RowBox[{
+                    RowBox[{"nSamples", "-", "1"}], ",", "sigMax"}], "}"}]}], 
+                 "]"}]}], "}"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"shadingYbeyond", "=", 
+              RowBox[{"Which", "[", 
+               RowBox[{
+                RowBox[{"tau", ">", "0"}], ",", 
+                RowBox[{"{", 
+                 RowBox[{
+                  RowBox[{"Opacity", "[", "0.15", "]"}], ",", "Yellow", ",", 
+                  RowBox[{"Rectangle", "[", 
+                   RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"-", "tau"}], ",", "sigMin"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", "sigMax"}], "}"}]}], "]"}]}], "}"}], ",", 
+                RowBox[{"tau", "<", "0"}], ",", 
+                RowBox[{"{", 
+                 RowBox[{
+                  RowBox[{"Opacity", "[", "0.15", "]"}], ",", "Yellow", ",", 
+                  RowBox[{"Rectangle", "[", 
+                   RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"nSamples", "-", "1"}], ",", "sigMin"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"nSamples", "-", "1", "-", "tau"}], ",", 
+                    "sigMax"}], "}"}]}], "]"}]}], "}"}], ",", "True", ",", 
+                RowBox[{"{", "}"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"shadingXonly", "=", 
+              RowBox[{"Which", "[", 
+               RowBox[{
+                RowBox[{
+                 RowBox[{"tau", ">", "0"}], "&&", 
+                 RowBox[{"tau", "<", "nSamples"}]}], ",", 
+                RowBox[{"{", 
+                 RowBox[{
+                  RowBox[{"Opacity", "[", "0.08", "]"}], ",", "Gray", ",", 
+                  RowBox[{"Rectangle", "[", 
+                   RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"nSamples", "-", "1", "-", "tau", "+", "1"}], ",",
+                     "sigMin"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"nSamples", "-", "1"}], ",", "sigMax"}], "}"}]}], 
+                   "]"}]}], "}"}], ",", 
+                RowBox[{
+                 RowBox[{"tau", "<", "0"}], "&&", 
+                 RowBox[{"tau", ">", 
+                  RowBox[{"-", "nSamples"}]}]}], ",", 
+                RowBox[{"{", 
+                 RowBox[{
+                  RowBox[{"Opacity", "[", "0.08", "]"}], ",", "Gray", ",", 
+                  RowBox[{"Rectangle", "[", 
+                   RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", "sigMin"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"-", "tau"}], "-", "1"}], ",", "sigMax"}], 
+                    "}"}]}], "]"}]}], "}"}], ",", "True", ",", 
+                RowBox[{"{", "}"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"sig1Line", "=", 
+              RowBox[{"{", 
+               RowBox[{"Thick", ",", "sig1Color", ",", 
+                RowBox[{"Line", "[", 
+                 RowBox[{"Table", "[", 
+                  RowBox[{
+                   RowBox[{"{", 
+                    RowBox[{"t", ",", 
+                    RowBox[{"sig1", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"t", "+", "1"}], "]"}], "]"}]}], "}"}], ",", 
+                   RowBox[{"{", 
+                    RowBox[{"t", ",", "0", ",", 
+                    RowBox[{"nSamples", "-", "1"}]}], "}"}]}], "]"}], "]"}]}],
+                "}"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"yos", "=", 
+              RowBox[{"Max", "[", 
+               RowBox[{"0", ",", 
+                RowBox[{"-", "tau"}]}], "]"}]}], ";", 
+             RowBox[{"yoe", "=", 
+              RowBox[{"Min", "[", 
+               RowBox[{
+                RowBox[{"nSamples", "-", "1"}], ",", 
+                RowBox[{"nSamples", "-", "1", "-", "tau"}]}], "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"sig2Overlap", "=", 
+              RowBox[{"{", 
+               RowBox[{"Thick", ",", "sig2Color", ",", 
+                RowBox[{"Line", "[", 
+                 RowBox[{"Table", "[", 
+                  RowBox[{
+                   RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"j", "-", "tau"}], ",", 
+                    RowBox[{"sig2", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"j", "+", "1"}], "]"}], "]"}]}], "}"}], ",", 
+                   RowBox[{"{", 
+                    RowBox[{"j", ",", 
+                    RowBox[{"tau", "+", "oStartPos"}], ",", 
+                    RowBox[{"tau", "+", "oEndPos"}]}], "}"}]}], "]"}], 
+                 "]"}]}], "}"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"sig2Beyond", "=", 
+              RowBox[{"Which", "[", 
+               RowBox[{
+                RowBox[{"tau", ">", "0"}], ",", 
+                RowBox[{"{", 
+                 RowBox[{
+                  RowBox[{"Opacity", "[", "0.25", "]"}], ",", "sig2Color", ",", 
+                  RowBox[{"AbsoluteThickness", "[", "2.5", "]"}], ",", 
+                  RowBox[{"Line", "[", 
+                   RowBox[{"Table", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"j", "-", "tau"}], ",", 
+                    RowBox[{"sig2", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"j", "+", "1"}], "]"}], "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"j", ",", "0", ",", 
+                    RowBox[{"tau", "-", "1"}]}], "}"}]}], "]"}], "]"}]}], 
+                 "}"}], ",", 
+                RowBox[{"tau", "<", "0"}], ",", 
+                RowBox[{"{", 
+                 RowBox[{
+                  RowBox[{"Opacity", "[", "0.25", "]"}], ",", "sig2Color", ",", 
+                  RowBox[{"AbsoluteThickness", "[", "2.5", "]"}], ",", 
+                  RowBox[{"Line", "[", 
+                   RowBox[{"Table", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"j", "-", "tau"}], ",", 
+                    RowBox[{"sig2", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"j", "+", "1"}], "]"}], "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"j", ",", 
+                    RowBox[{"nSamples", "+", "tau"}], ",", 
+                    RowBox[{"nSamples", "-", "1"}]}], "}"}]}], "]"}], "]"}]}],
+                  "}"}], ",", "True", ",", 
+                RowBox[{"{", "}"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"separator", "=", 
+              RowBox[{"{", 
+               RowBox[{
+                RowBox[{"GrayLevel", "[", "0.7", "]"}], ",", 
+                RowBox[{"AbsoluteThickness", "[", "1", "]"}], ",", 
+                RowBox[{"Line", "[", 
+                 RowBox[{"{", 
+                  RowBox[{
+                   RowBox[{"{", 
+                    RowBox[{"axMin", ",", "sepY"}], "}"}], ",", 
+                   RowBox[{"{", 
+                    RowBox[{"axMax", ",", "sepY"}], "}"}]}], "}"}], "]"}]}], 
+               "}"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"prodZeroLine", "=", 
+              RowBox[{"{", 
+               RowBox[{
+                RowBox[{"GrayLevel", "[", "0.75", "]"}], ",", 
+                RowBox[{"AbsoluteThickness", "[", "0.5", "]"}], ",", 
+                RowBox[{"Line", "[", 
+                 RowBox[{"{", 
+                  RowBox[{
+                   RowBox[{"{", 
+                    RowBox[{"axMin", ",", "prodZero"}], "}"}], ",", 
+                   RowBox[{"{", 
+                    RowBox[{"axMax", ",", "prodZero"}], "}"}]}], "}"}], 
+                 "]"}]}], "}"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"prodLabelLeft", "=", 
+              RowBox[{"Text", "[", 
+               RowBox[{
+                RowBox[{"Style", "[", 
+                 RowBox[{
+                  RowBox[{
+                  "sig1Name", "<>", "\"\<\[CenterDot]\>\"", "<>", 
+                   "sig2Name"}], ",", "10", ",", "Gray"}], "]"}], ",", 
+                RowBox[{"{", 
+                 RowBox[{
+                  RowBox[{"axMin", "+", "5"}], ",", 
+                  RowBox[{"prodZero", "+", "prodMargin", "-", "0.1"}]}], 
+                 "}"}], ",", 
+                RowBox[{"{", 
+                 RowBox[{
+                  RowBox[{"-", "1"}], ",", "0"}], "}"}]}], "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"prodBars", "=", 
+              RowBox[{"Table", "[", 
+               RowBox[{
+                RowBox[{"{", 
+                 RowBox[{
+                  RowBox[{"If", "[", 
+                   RowBox[{
+                    RowBox[{
+                    RowBox[{"products", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "2"}], "]"}], "]"}], ">=", "0"}], ",", 
+                    RowBox[{"Directive", "[", 
+                    RowBox[{
+                    RowBox[{"Opacity", "[", "0.6", "]"}], ",", 
+                    RowBox[{"Darker", "[", "Green", "]"}]}], "]"}], ",", 
+                    RowBox[{"Directive", "[", 
+                    RowBox[{
+                    RowBox[{"Opacity", "[", "0.55", "]"}], ",", "Red"}], 
+                    "]"}]}], "]"}], ",", 
+                  RowBox[{"AbsoluteThickness", "[", "2", "]"}], ",", 
+                  RowBox[{"Line", "[", 
+                   RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"products", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "1"}], "]"}], "]"}], ",", "prodZero"}], 
+                    "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"products", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "1"}], "]"}], "]"}], ",", 
+                    RowBox[{"prodZero", "+", 
+                    RowBox[{
+                    RowBox[{"products", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "2"}], "]"}], "]"}], "*", 
+                    "pScale"}]}]}], "}"}]}], "}"}], "]"}]}], "}"}], ",", 
+                RowBox[{"{", 
+                 RowBox[{"i", ",", 
+                  RowBox[{"Length", "[", "products", "]"}]}], "}"}]}], 
+               "]"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"meanLine", "=", 
+              RowBox[{"If", "[", 
+               RowBox[{
+                RowBox[{"oStartPos", "<=", "oEndPos"}], ",", 
+                RowBox[{"{", 
+                 RowBox[{"Black", ",", 
+                  RowBox[{"AbsoluteThickness", "[", "2", "]"}], ",", 
+                  RowBox[{"Line", "[", 
+                   RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"oStartPos", ",", 
+                    RowBox[{"prodZero", "+", 
+                    RowBox[{"corrVal", "*", "pScale"}]}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"oEndPos", ",", 
+                    RowBox[{"prodZero", "+", 
+                    RowBox[{"corrVal", "*", "pScale"}]}]}], "}"}]}], "}"}], 
+                   "]"}]}], "}"}], ",", 
+                RowBox[{"{", "}"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"meanLabel", "=", 
+              RowBox[{"If", "[", 
+               RowBox[{
+                RowBox[{"oStartPos", "<=", "oEndPos"}], ",", 
+                RowBox[{"Text", "[", 
+                 RowBox[{
+                  RowBox[{"Style", "[", 
+                   RowBox[{
+                    RowBox[{"Row", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"OverHat", "[", "\"\<R\>\"", "]"}], 
+                    ",", "\"\<(\[Tau]) = \>\"", ",", 
+                    RowBox[{"NumberForm", "[", 
+                    RowBox[{"corrVal", ",", 
+                    RowBox[{"{", 
+                    RowBox[{"4", ",", "3"}], "}"}]}], "]"}]}], "}"}], "]"}], ",",
+                     "Bold", ",", "11", ",", "Black"}], "]"}], ",", 
+                  RowBox[{"{", 
+                   RowBox[{
+                    RowBox[{"axMax", "-", "5"}], ",", 
+                    RowBox[{"prodZero", "+", 
+                    RowBox[{"corrVal", "*", "pScale"}]}]}], "}"}], ",", 
+                  RowBox[{"{", 
+                   RowBox[{"1", ",", "0"}], "}"}]}], "]"}], ",", 
+                RowBox[{"{", "}"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"bracketY", "=", 
+              RowBox[{"plotBottom", "+", "0.05"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"overlapBracket", "=", 
+              RowBox[{"If", "[", 
+               RowBox[{
+                RowBox[{"tau", "!=", "0"}], ",", 
+                RowBox[{"{", 
+                 RowBox[{
+                  RowBox[{"Darker", "[", "Green", "]"}], ",", 
+                  RowBox[{"AbsoluteThickness", "[", "2", "]"}], ",", 
+                  RowBox[{"Line", "[", 
+                   RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"oStartPos", ",", "bracketY"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"oEndPos", ",", "bracketY"}], "}"}]}], "}"}], 
+                   "]"}], ",", 
+                  RowBox[{"Line", "[", 
+                   RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"oStartPos", ",", 
+                    RowBox[{"bracketY", "-", "0.08"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"oStartPos", ",", 
+                    RowBox[{"bracketY", "+", "0.08"}]}], "}"}]}], "}"}], 
+                   "]"}], ",", 
+                  RowBox[{"Line", "[", 
+                   RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"oEndPos", ",", 
+                    RowBox[{"bracketY", "-", "0.08"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"oEndPos", ",", 
+                    RowBox[{"bracketY", "+", "0.08"}]}], "}"}]}], "}"}], 
+                   "]"}], ",", 
+                  RowBox[{"Text", "[", 
+                   RowBox[{
+                    RowBox[{"Style", "[", 
+                    RowBox[{
+                    RowBox[{"\"\<overlap: \>\"", "<>", 
+                    RowBox[{"ToString", "[", "ov", "]"}], 
+                    "<>", "\"\< pts\>\""}], ",", "Bold", ",", "9", ",", 
+                    RowBox[{"Darker", "[", "Green", "]"}]}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"oStartPos", "+", "oEndPos"}], ")"}], "/", "2"}], 
+                    ",", 
+                    RowBox[{"bracketY", "-", "0.18"}]}], "}"}]}], "]"}]}], 
+                 "}"}], ",", 
+                RowBox[{"{", "}"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"(*", 
+              RowBox[{"Correlation", " ", "panel"}], "*)"}], 
+             RowBox[{"revStart", "=", 
+              RowBox[{"Min", "[", 
+               RowBox[{"0", ",", "tau"}], "]"}]}], ";", 
+             RowBox[{"revEnd", "=", 
+              RowBox[{"Max", "[", 
+               RowBox[{"0", ",", "tau"}], "]"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"cMin", "=", 
+              RowBox[{"Min", "[", 
+               RowBox[{"Values", "[", "activeCorr", "]"}], "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"cMax", "=", 
+              RowBox[{"Max", "[", 
+               RowBox[{"Values", "[", "activeCorr", "]"}], "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"margin", "=", 
+              RowBox[{"Max", "[", 
+               RowBox[{"0.005", ",", 
+                RowBox[{
+                 RowBox[{"(", 
+                  RowBox[{"cMax", "-", "cMin"}], ")"}], "*", "0.03"}]}], 
+               "]"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"cMin", "=", 
+              RowBox[{"cMin", "-", "margin"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"cMax", "=", 
+              RowBox[{"cMax", "+", "margin"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"corrLabel", "=", 
+              RowBox[{"Switch", "[", 
+               RowBox[{"corrMode", ",", "\"\<Rxy\>\"", ",", 
+                RowBox[{"Row", "[", 
+                 RowBox[{"{", 
+                  RowBox[{
+                   RowBox[{"OverHat", "[", 
+                    RowBox[{"Subscript", "[", 
+                    RowBox[{"\"\<R\>\"", ",", "\"\<xy\>\""}], "]"}], "]"}], 
+                   ",", "\"\<(\[Tau])\>\""}], "}"}], "]"}], ",", "\"\<Rxx\>\"",
+                 ",", 
+                RowBox[{"Row", "[", 
+                 RowBox[{"{", 
+                  RowBox[{
+                   RowBox[{"OverHat", "[", 
+                    RowBox[{"Subscript", "[", 
+                    RowBox[{"\"\<R\>\"", ",", "\"\<xx\>\""}], "]"}], "]"}], 
+                   ",", "\"\<(\[Tau])\>\""}], "}"}], "]"}], ",", "\"\<Ryy\>\"",
+                 ",", 
+                RowBox[{"Row", "[", 
+                 RowBox[{"{", 
+                  RowBox[{
+                   RowBox[{"OverHat", "[", 
+                    RowBox[{"Subscript", "[", 
+                    RowBox[{"\"\<R\>\"", ",", "\"\<yy\>\""}], "]"}], "]"}], 
+                   ",", "\"\<(\[Tau])\>\""}], "}"}], "]"}]}], "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"Column", "[", 
+              RowBox[{
+               RowBox[{"{", 
+                RowBox[{"(*", 
+                 RowBox[{"Panel", " ", "1"}], "*)"}], 
+                RowBox[{
+                 RowBox[{"Graphics", "[", 
+                  RowBox[{
+                   RowBox[{"{", 
+                    RowBox[{
+                    "shadingX", ",", "shadingYbeyond", ",", "shadingXonly", ",",
+                     "sig1Line", ",", "sig2Overlap", ",", "sig2Beyond", ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"GrayLevel", "[", "0.85", "]"}], ",", 
+                    RowBox[{"AbsoluteThickness", "[", "0.5", "]"}], ",", 
+                    RowBox[{"Line", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"axMin", ",", "0"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"axMax", ",", "0"}], "}"}]}], "}"}], "]"}]}], 
+                    "}"}], ",", "separator", ",", "prodZeroLine", ",", 
+                    "prodLabelLeft", ",", "prodBars", ",", "meanLine", ",", 
+                    "meanLabel", ",", "overlapBracket"}], "}"}], ",", 
+                   RowBox[{"PlotRange", "->", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"axMin", ",", "axMax"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"plotBottom", "-", "0.3"}], ",", 
+                    RowBox[{"sigMax", "+", "0.15"}]}], "}"}]}], "}"}]}], ",", 
+                   
+                   RowBox[{"Frame", "->", "True"}], ",", 
+                   RowBox[{"FrameLabel", "->", 
+                    RowBox[{"{", 
+                    RowBox[{"\"\<Sample index\>\"", ",", "None"}], "}"}]}], ",", 
+                   RowBox[{"PlotLabel", "->", 
+                    RowBox[{"Style", "[", 
+                    RowBox[{
+                    RowBox[{"Row", "[", 
+                    RowBox[{"{", 
+                    
+                    RowBox[{"\"\<Signals and products: \>\"", ",", "sig1Name",
+                     ",", "\"\< \[CenterDot] \>\"", ",", "sig2Name", 
+                    ",", "\"\<    (\[Tau] = \>\"", ",", "tau", 
+                    ",", "\"\<)\>\""}], "}"}], "]"}], ",", "Bold", ",", 
+                    "13"}], "]"}]}], ",", 
+                   RowBox[{"ImageSize", "->", 
+                    RowBox[{"{", 
+                    RowBox[{"900", ",", "Automatic"}], "}"}]}], ",", 
+                   RowBox[{"ImagePadding", "->", "commonPadding"}], ",", 
+                   RowBox[{"AspectRatio", "->", "0.45"}], ",", 
+                   RowBox[{"FrameTicks", "->", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Range", "[", 
+                    RowBox[{"axMin", ",", "axMax", ",", "100"}], "]"}], ",", 
+                    RowBox[{"Join", "[", 
+                    RowBox[{
+                    RowBox[{"Table", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"v", ",", "v"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"v", ",", 
+                    RowBox[{"-", "1"}], ",", "1", ",", "0.5"}], "}"}]}], 
+                    "]"}], ",", 
+                    RowBox[{"Table", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"prodZero", "+", 
+                    RowBox[{"v", "*", "pScale"}]}], ",", 
+                    RowBox[{"NumberForm", "[", 
+                    RowBox[{
+                    RowBox[{"N", "[", "v", "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"3", ",", "2"}], "}"}]}], "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"v", ",", 
+                    RowBox[{"-", 
+                    RowBox[{"Round", "[", 
+                    RowBox[{"maxProd", ",", "pTickStep"}], "]"}]}], ",", 
+                    RowBox[{"Round", "[", 
+                    RowBox[{"maxProd", ",", "pTickStep"}], "]"}], ",", 
+                    "pTickStep"}], "}"}]}], "]"}]}], "]"}]}], "}"}]}], ",", 
+                   RowBox[{"BaseStyle", "->", 
+                    RowBox[{"{", 
+                    RowBox[{"FontSize", "->", "11"}], "}"}]}]}], "]"}], ",", 
+                 RowBox[{"(*", "Legend", "*)"}], 
+                 RowBox[{"Row", "[", 
+                  RowBox[{
+                   RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Graphics", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"Thick", ",", "sig1Color", ",", 
+                    RowBox[{"Line", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", "0"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"1", ",", "0"}], "}"}]}], "}"}], "]"}]}], "}"}], ",", 
+                    RowBox[{"ImageSize", "->", 
+                    RowBox[{"{", 
+                    RowBox[{"20", ",", "10"}], "}"}]}]}], "]"}], ",", 
+                    
+                    RowBox[{"\"\< \>\"", "<>", "sig1Name", 
+                    "<>", "\"\<   \>\""}], ",", 
+                    RowBox[{"Graphics", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"Thick", ",", "sig2Color", ",", 
+                    RowBox[{"Line", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", "0"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"1", ",", "0"}], "}"}]}], "}"}], "]"}]}], "}"}], ",", 
+                    RowBox[{"ImageSize", "->", 
+                    RowBox[{"{", 
+                    RowBox[{"20", ",", "10"}], "}"}]}]}], "]"}], ",", 
+                    
+                    RowBox[{"\"\< \>\"", "<>", "sig2Name", 
+                    "<>", "\"\<   \>\""}], ",", 
+                    RowBox[{"Graphics", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Darker", "[", "Green", "]"}], ",", 
+                    RowBox[{"Rectangle", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", "0"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"1", ",", "1"}], "}"}]}], "]"}]}], "}"}], ",", 
+                    RowBox[{"ImageSize", "->", 
+                    RowBox[{"{", 
+                    RowBox[{"10", ",", "10"}], "}"}]}]}], "]"}], 
+                    ",", "\"\< prod>0  \>\"", ",", 
+                    RowBox[{"Graphics", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"Red", ",", 
+                    RowBox[{"Rectangle", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", "0"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"1", ",", "1"}], "}"}]}], "]"}]}], "}"}], ",", 
+                    RowBox[{"ImageSize", "->", 
+                    RowBox[{"{", 
+                    RowBox[{"10", ",", "10"}], "}"}]}]}], "]"}], 
+                    ",", "\"\< prod<0  \>\"", ",", 
+                    RowBox[{"Graphics", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"Black", ",", "Thick", ",", 
+                    RowBox[{"Line", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", "0"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"1", ",", "0"}], "}"}]}], "}"}], "]"}]}], "}"}], ",", 
+                    RowBox[{"ImageSize", "->", 
+                    RowBox[{"{", 
+                    RowBox[{"20", ",", "10"}], "}"}]}]}], "]"}], 
+                    ",", "\"\< mean = \>\"", ",", 
+                    RowBox[{"OverHat", "[", "\"\<R\>\"", "]"}], 
+                    ",", "\"\<(\[Tau])\>\""}], "}"}], ",", 
+                   RowBox[{"Spacer", "[", "3", "]"}]}], "]"}], ",", 
+                 RowBox[{"Spacer", "[", "8", "]"}], ",", 
+                 RowBox[{"(*", 
+                  RowBox[{"Panel", " ", "2"}], "*)"}], 
+                 RowBox[{"Graphics", "[", 
+                  RowBox[{
+                   RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"LightGray", ",", 
+                    RowBox[{"Line", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"-", "mMax"}], ",", "0"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"mMax", ",", "0"}], "}"}]}], "}"}], "]"}]}], 
+                    "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"LightGray", ",", "Dashed", ",", 
+                    RowBox[{"Line", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", "cMin"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", "cMax"}], "}"}]}], "}"}], "]"}]}], 
+                    "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"GrayLevel", "[", "0.7", "]"}], ",", 
+                    RowBox[{"AbsoluteThickness", "[", "1.5", "]"}], ",", 
+                    RowBox[{"Line", "[", 
+                    RowBox[{"Table", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"l", ",", 
+                    RowBox[{"activeCorr", "[", "l", "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"l", ",", 
+                    RowBox[{"-", "mMax"}], ",", "mMax"}], "}"}]}], "]"}], 
+                    "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"Black", ",", 
+                    RowBox[{"AbsoluteThickness", "[", "2.5", "]"}], ",", 
+                    RowBox[{"Line", "[", 
+                    RowBox[{"Table", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"l", ",", 
+                    RowBox[{"activeCorr", "[", "l", "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"l", ",", "revStart", ",", "revEnd"}], "}"}]}], 
+                    "]"}], "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"Black", ",", 
+                    RowBox[{"PointSize", "[", "0.006", "]"}], ",", 
+                    RowBox[{"Point", "[", 
+                    RowBox[{"Table", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"l", ",", 
+                    RowBox[{"activeCorr", "[", "l", "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"l", ",", "revStart", ",", "revEnd"}], "}"}]}], 
+                    "]"}], "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"Red", ",", 
+                    RowBox[{"PointSize", "[", "Large", "]"}], ",", 
+                    RowBox[{"Point", "[", 
+                    RowBox[{"{", 
+                    RowBox[{"tau", ",", "corrVal"}], "}"}], "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"Red", ",", "Dashed", ",", 
+                    RowBox[{"AbsoluteThickness", "[", "1.5", "]"}], ",", 
+                    RowBox[{"Line", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"tau", ",", "corrVal"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"tau", ",", "cMin"}], "}"}]}], "}"}], "]"}]}], 
+                    "}"}]}], "}"}], ",", 
+                   RowBox[{"PlotRange", "->", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"-", "mMax"}], ",", "mMax"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"cMin", ",", "cMax"}], "}"}]}], "}"}]}], ",", 
+                   RowBox[{"Frame", "->", "True"}], ",", 
+                   RowBox[{"FrameLabel", "->", 
+                    RowBox[{"{", 
+                    RowBox[{"\"\<Lag \[Tau]\>\"", ",", "corrLabel"}], "}"}]}],
+                    ",", 
+                   RowBox[{"PlotLabel", "->", 
+                    RowBox[{"Style", "[", 
+                    RowBox[{
+                    RowBox[{"Switch", "[", 
+                    RowBox[{
+                    "corrMode", ",", "\"\<Rxy\>\"", 
+                    ",", "\"\<Cross-Correlation Function (revealed \
+progressively)\>\"", ",", "\"\<Rxx\>\"", 
+                    ",", "\"\<Auto-Correlation of x (revealed \
+progressively)\>\"", ",", "\"\<Ryy\>\"", 
+                    ",", "\"\<Auto-Correlation of y (revealed \
+progressively)\>\""}], "]"}], ",", "Bold", ",", "13"}], "]"}]}], ",", 
+                   RowBox[{"ImageSize", "->", 
+                    RowBox[{"{", 
+                    RowBox[{"900", ",", "Automatic"}], "}"}]}], ",", 
+                   RowBox[{"ImagePadding", "->", "commonPadding"}], ",", 
+                   RowBox[{"AspectRatio", "->", "0.22"}], ",", 
+                   RowBox[{"FrameTicks", "->", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Range", "[", 
+                    RowBox[{
+                    RowBox[{"-", "mMax"}], ",", "mMax", ",", "10"}], "]"}], ",",
+                     "Automatic"}], "}"}]}], ",", 
+                   RowBox[{"BaseStyle", "->", 
+                    RowBox[{"{", 
+                    RowBox[{"FontSize", "->", "11"}], "}"}]}]}], "]"}], ",", 
+                 RowBox[{"Spacer", "[", "10", "]"}], ",", 
+                 RowBox[{"Style", "[", 
+                  RowBox[{
+                   RowBox[{"Column", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Row", "[", 
+                    RowBox[{"{", 
+                    RowBox[{"\"\<Sample rate: \>\"", ",", 
+                    RowBox[{"fs", "/", "1000"}], 
+                    ",", "\"\< kHz    Signal length: \>\"", ",", "nSamples", 
+                    ",", "\"\< samples    Max lag: \[PlusMinus]\>\"", ",", 
+                    "mMax"}], "}"}], "]"}], ",", 
+                    RowBox[{
+                    RowBox[{"sd", "[", "\"\<label\>\"", "]"}], "<>", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    "flipX", ",", "\"\<  \[LeftArrow] NEGATED\>\"", 
+                    ",", "\"\<\>\""}], "]"}]}], ",", 
+                    RowBox[{"Row", "[", 
+                    RowBox[{"{", 
+                    
+                    RowBox[{"\"\<y[t]: x[t] \[RightArrow] 2nd-order system \
+(\>\"", ",", 
+                    RowBox[{"Subscript", "[", 
+                    RowBox[{"\"\<K\>\"", ",", "\"\<dc\>\""}], "]"}], 
+                    ",", "\"\< = \>\"", ",", "Kdc", ",", "\"\<, \>\"", ",", 
+                    RowBox[{"Subscript", "[", 
+                    RowBox[{"\"\<f\>\"", ",", "\"\<n\>\""}], "]"}], 
+                    ",", "\"\< = \>\"", ",", 
+                    RowBox[{"fn", "/", "1000"}], 
+                    ",", "\"\< kHz, \[Zeta] = \>\"", ",", "zeta", 
+                    ",", "\"\<)\>\""}], "}"}], "]"}], ",", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    "flipY", ",", "\"\<y[t]: NEGATED\>\"", ",", "\"\<\>\""}], 
+                    "]"}]}], "}"}], ",", 
+                    RowBox[{"Spacings", "->", "0.3"}]}], "]"}], ",", "11", ",",
+                    "Gray"}], "]"}]}], "}"}], ",", 
+               RowBox[{"Alignment", "->", "Center"}]}], "]"}]}]}], "]"}]}]}], 
+        "}"}], ",", 
+       RowBox[{"Alignment", "->", "Center"}]}], "]"}]}], "]"}]}]}]], "Input",
+ CellOpen->False,
+ CellChangeTimes->{{3.9850034909900627`*^9, 3.985003490992054*^9}, {
+  3.985003772840797*^9, 3.9850037729674797`*^9}, {3.985003857975107*^9, 
+  3.985003863201599*^9}, {3.985003919599978*^9, 3.985003919728011*^9}, {
+  3.9850039749382343`*^9, 3.985003975050528*^9}, {3.9850040388579082`*^9, 
+  3.9850040389835052`*^9}},
+ CellLabel->"In[29]:=",ExpressionUUID->"8105b5fc-cdc2-412a-a0c5-a26fd86967df"],
+
+Cell[BoxData[
+ DynamicModuleBox[{$CellContext`currentLag$$ = 100, $CellContext`corrMode$$ = 
+  "Rxy", $CellContext`flipX$$ = False, $CellContext`flipY$$ = 
+  False, $CellContext`inputMode$$ = "white"}, 
+  TagBox[GridBox[{
+     {
+      TemplateBox[{
+        StyleBox["\"Lag \[Tau] : \"", Bold, 14, StripOnInput -> False], 
+        SliderBox[
+         Dynamic[$CellContext`currentLag$$], {-100, 100, 1}, ImageSize -> 
+         300], 
+        TemplateBox[{12}, "Spacer1"], 
+        DynamicBox[
+         ToBoxes[
+          Style[$CellContext`currentLag$$, Bold, 18, Red], StandardForm], 
+         ImageSizeCache -> {
+          32.4, {0.21599999999999997`, 11.645999999999999`}}], 
+        TemplateBox[{20}, "Spacer1"], 
+        StyleBox["\"Corr: \"", Bold, 12, StripOnInput -> False], 
+        PopupMenuBox[
+         Dynamic[$CellContext`corrMode$$], {"Rxy" -> TemplateBox[{
+             SubscriptBox["\"R\"", "\"xy\""], "\" (cross)\""}, "RowDefault"], 
+          "Rxx" -> TemplateBox[{
+             SubscriptBox["\"R\"", "\"xx\""], "\" (auto x)\""}, "RowDefault"],
+           "Ryy" -> TemplateBox[{
+             SubscriptBox["\"R\"", "\"yy\""], "\" (auto y)\""}, 
+            "RowDefault"]}], 
+        TemplateBox[{15}, "Spacer1"], 
+        ButtonBox[
+         DynamicBox[
+          ToBoxes[
+           If[$CellContext`flipX$$, "Restore x", "Negate x"], StandardForm], 
+          ImageSizeCache -> {54.18359375, {2.412109375, 9.15966796875}}], 
+         Appearance -> Automatic, 
+         ButtonFunction :> ($CellContext`flipX$$ = Not[$CellContext`flipX$$]),
+          Evaluator -> Automatic, ImageSize -> {80, 24}, Method -> 
+         "Preemptive"], 
+        TemplateBox[{5}, "Spacer1"], 
+        ButtonBox[
+         DynamicBox[
+          ToBoxes[
+           If[$CellContext`flipY$$, "Restore y", "Negate y"], StandardForm], 
+          ImageSizeCache -> {54.4248046875, {2.412109375, 9.15966796875}}], 
+         Appearance -> Automatic, 
+         ButtonFunction :> ($CellContext`flipY$$ = Not[$CellContext`flipY$$]),
+          Evaluator -> Automatic, ImageSize -> {80, 24}, Method -> 
+         "Preemptive"]},
+       "RowDefault"]},
+     {
+      TemplateBox[{
+        StyleBox["\"Input x[t]: \"", Bold, 12, StripOnInput -> False], 
+        PopupMenuBox[
+         Dynamic[$CellContext`inputMode$$], {
+         "white" -> "\"White noise\"", "bandlim" -> 
+          "\"Band-limited noise (1 kHz LPF)\"", "sinnoise" -> 
+          "\"Sinusoid (1 kHz) + noise\"", "brown" -> "\"Brownian motion\""}]},
+       
+       "RowDefault"]},
+     {
+      TemplateBox[{5},
+       "Spacer1"]},
+     {
+      DynamicBox[ToBoxes[
+        Module[{$CellContext`tau$ = $CellContext`currentLag$$, \
+$CellContext`sd$ = $CellContext`signalData[$CellContext`inputMode$$], \
+$CellContext`sig1$, $CellContext`sig2$, $CellContext`activeCorr$, \
+$CellContext`flipSign$, $CellContext`sig1Name$, $CellContext`sig2Name$, \
+$CellContext`sig1Color$, $CellContext`sig2Color$, $CellContext`oStartPos$, \
+$CellContext`oEndPos$, $CellContext`ov$, $CellContext`products$, \
+$CellContext`corrVal$, $CellContext`prodBars$, $CellContext`sig1Line$, \
+$CellContext`sig2Overlap$, $CellContext`sig2Beyond$, $CellContext`meanLine$, \
+$CellContext`meanLabel$, $CellContext`overlapBracket$, \
+$CellContext`shadingX$, $CellContext`shadingYbeyond$, \
+$CellContext`shadingXonly$, $CellContext`bracketY$, $CellContext`separator$, \
+$CellContext`prodZeroLine$, $CellContext`prodLabelLeft$, $CellContext`yos$, \
+$CellContext`yoe$, $CellContext`xSig$, $CellContext`ySig$, \
+$CellContext`corrXXd$, $CellContext`corrYYd$, $CellContext`corrXYd$, \
+$CellContext`pScale$, $CellContext`maxProd$, $CellContext`pTickStep$, \
+$CellContext`revStart$, $CellContext`revEnd$, $CellContext`cMin$, \
+$CellContext`cMax$, $CellContext`margin$, $CellContext`corrLabel$, \
+$CellContext`corrMinV$, $CellContext`corrMaxV$}, $CellContext`xSig$ = \
+$CellContext`sd$["x"]; $CellContext`ySig$ = $CellContext`sd$[
+           "y"]; $CellContext`corrXXd$ = $CellContext`sd$[
+           "xx"]; $CellContext`corrYYd$ = $CellContext`sd$[
+           "yy"]; $CellContext`corrXYd$ = $CellContext`sd$[
+           "xy"]; $CellContext`maxProd$ = \
+$CellContext`maxAbsProds[$CellContext`inputMode$$]; $CellContext`sig1$ = 
+          If[$CellContext`flipX$$, -$CellContext`xSig$, $CellContext`xSig$]; \
+$CellContext`sig2$ = Switch[$CellContext`corrMode$$, "Rxy", 
+            If[$CellContext`flipY$$, -$CellContext`ySig$, $CellContext`ySig$],
+             "Rxx", 
+            If[$CellContext`flipX$$, -$CellContext`xSig$, $CellContext`xSig$],
+             "Ryy", 
+            
+            If[$CellContext`flipY$$, -$CellContext`ySig$, \
+$CellContext`ySig$]]; $CellContext`flipSign$ = 
+          Switch[$CellContext`corrMode$$, "Rxy", 
+            If[
+             Xor[$CellContext`flipX$$, $CellContext`flipY$$], -1, 1], "Rxx", 
+            1, "Ryy", 1]; $CellContext`activeCorr$ = <|
+            
+            Table[$CellContext`t2 -> $CellContext`flipSign$ 
+              Switch[$CellContext`corrMode$$, "Rxy", 
+                $CellContext`corrXYd$[$CellContext`t2], "Rxx", 
+                $CellContext`corrXXd$[$CellContext`t2], "Ryy", 
+                $CellContext`corrYYd$[$CellContext`t2]], {$CellContext`t2, \
+-$CellContext`mMax, $CellContext`mMax}]|>; {$CellContext`sig1Name$, \
+$CellContext`sig2Name$} = Switch[$CellContext`corrMode$$, "Rxy", {
+             If[$CellContext`flipX$$, "-x[t]", "x[t]"], 
+             If[$CellContext`flipY$$, "-y[t+\[Tau]]", "y[t+\[Tau]]"]}, "Rxx", {
+             If[$CellContext`flipX$$, "-x[t]", "x[t]"], 
+             If[$CellContext`flipX$$, "-x[t+\[Tau]]", "x[t+\[Tau]]"]}, "Ryy", {
+             If[$CellContext`flipY$$, "-y[t]", "y[t]"], 
+             
+             If[$CellContext`flipY$$, "-y[t+\[Tau]]", 
+              "y[t+\[Tau]]"]}]; $CellContext`sig1Color$ = 
+          Switch[$CellContext`corrMode$$, "Rxy", Blue, "Rxx", Blue, "Ryy", 
+            Red]; $CellContext`sig2Color$ = 
+          Switch[$CellContext`corrMode$$, "Rxy", Red, "Rxx", 
+            Darker[Blue, 0.3], "Ryy", 
+            Darker[Red, 0.3]]; 
+         If[$CellContext`corrMode$$ == "Ryy", $CellContext`sig1$ = 
+           If[$CellContext`flipY$$, -$CellContext`ySig$, $CellContext`ySig$]]; \
+$CellContext`oStartPos$ = Max[0, -$CellContext`tau$]; $CellContext`oEndPos$ = 
+          Min[$CellContext`nSamples - 1, $CellContext`nSamples - 
+            1 - $CellContext`tau$]; $CellContext`ov$ = 
+          Max[0, $CellContext`oEndPos$ - $CellContext`oStartPos$ + 
+            1]; $CellContext`products$ = 
+          Table[{$CellContext`t, Part[$CellContext`sig1$, $CellContext`t + 1] 
+             Part[$CellContext`sig2$, $CellContext`t + $CellContext`tau$ + 
+               1]}, {$CellContext`t, $CellContext`oStartPos$, \
+$CellContext`oEndPos$}]; $CellContext`corrVal$ = \
+$CellContext`activeCorr$[$CellContext`tau$]; $CellContext`pScale$ = 
+          1.3/Max[$CellContext`maxProd$, 0.001]; $CellContext`pTickStep$ = 
+          Round[$CellContext`maxProd$/3, 0.1]; 
+         If[$CellContext`pTickStep$ == 0, $CellContext`pTickStep$ = 
+           Max[0.01, $CellContext`maxProd$/3]]; $CellContext`shadingX$ = {
+            Opacity[0.04], $CellContext`sig1Color$, 
+            
+            Rectangle[{
+             0, $CellContext`sigMin}, {$CellContext`nSamples - 
+              1, $CellContext`sigMax}]}; $CellContext`shadingYbeyond$ = 
+          Which[$CellContext`tau$ > 0, {
+             Opacity[0.15], Yellow, 
+             
+             Rectangle[{-$CellContext`tau$, $CellContext`sigMin}, {
+              0, $CellContext`sigMax}]}, $CellContext`tau$ < 0, {
+             Opacity[0.15], Yellow, 
+             
+             Rectangle[{$CellContext`nSamples - 
+               1, $CellContext`sigMin}, {$CellContext`nSamples - 
+               1 - $CellContext`tau$, $CellContext`sigMax}]}, 
+            True, {}]; $CellContext`shadingXonly$ = Which[
+            
+            And[$CellContext`tau$ > 
+             0, $CellContext`tau$ < $CellContext`nSamples], {
+             Opacity[0.08], Gray, 
+             
+             Rectangle[{$CellContext`nSamples - 1 - $CellContext`tau$ + 
+               1, $CellContext`sigMin}, {$CellContext`nSamples - 
+               1, $CellContext`sigMax}]}, 
+            
+            And[$CellContext`tau$ < 
+             0, $CellContext`tau$ > -$CellContext`nSamples], {
+             Opacity[0.08], Gray, 
+             
+             Rectangle[{
+              0, $CellContext`sigMin}, {-$CellContext`tau$ - 
+               1, $CellContext`sigMax}]}, 
+            True, {}]; $CellContext`sig1Line$ = {
+           Thick, $CellContext`sig1Color$, 
+            Line[
+             Table[{$CellContext`t, 
+               Part[$CellContext`sig1$, $CellContext`t + 1]}, {$CellContext`t,
+                0, $CellContext`nSamples - 1}]]}; $CellContext`yos$ = 
+          Max[0, -$CellContext`tau$]; $CellContext`yoe$ = 
+          Min[$CellContext`nSamples - 1, $CellContext`nSamples - 
+            1 - $CellContext`tau$]; $CellContext`sig2Overlap$ = {
+           Thick, $CellContext`sig2Color$, 
+            Line[
+             Table[{$CellContext`j - $CellContext`tau$, 
+               
+               Part[$CellContext`sig2$, $CellContext`j + 
+                1]}, {$CellContext`j, $CellContext`tau$ + \
+$CellContext`oStartPos$, $CellContext`tau$ + $CellContext`oEndPos$}]]}; \
+$CellContext`sig2Beyond$ = Which[$CellContext`tau$ > 0, {
+             Opacity[0.25], $CellContext`sig2Color$, 
+             AbsoluteThickness[2.5], 
+             Line[
+              Table[{$CellContext`j - $CellContext`tau$, 
+                
+                Part[$CellContext`sig2$, $CellContext`j + 
+                 1]}, {$CellContext`j, 0, $CellContext`tau$ - 
+                1}]]}, $CellContext`tau$ < 0, {
+             Opacity[0.25], $CellContext`sig2Color$, 
+             AbsoluteThickness[2.5], 
+             Line[
+              Table[{$CellContext`j - $CellContext`tau$, 
+                
+                Part[$CellContext`sig2$, $CellContext`j + 
+                 1]}, {$CellContext`j, $CellContext`nSamples + \
+$CellContext`tau$, $CellContext`nSamples - 1}]]}, 
+            True, {}]; $CellContext`separator$ = {
+            GrayLevel[0.7], 
+            AbsoluteThickness[1], 
+            
+            Line[{{$CellContext`axMin, $CellContext`sepY}, \
+{$CellContext`axMax, $CellContext`sepY}}]}; $CellContext`prodZeroLine$ = {
+            GrayLevel[0.75], 
+            AbsoluteThickness[0.5], 
+            
+            Line[{{$CellContext`axMin, $CellContext`prodZero}, \
+{$CellContext`axMax, $CellContext`prodZero}}]}; $CellContext`prodLabelLeft$ = 
+          Text[
+            
+            Style[$CellContext`sig1Name$ <> 
+             "\[CenterDot]" <> $CellContext`sig2Name$, 10, 
+             Gray], {$CellContext`axMin + 
+             5, $CellContext`prodZero + $CellContext`prodMargin - 0.1}, {-1, 
+            0}]; $CellContext`prodBars$ = Table[{
+             If[Part[$CellContext`products$, $CellContext`i, 2] >= 0, 
+              Directive[
+               Opacity[0.6], 
+               Darker[Green]], 
+              Directive[
+               Opacity[0.55], Red]], 
+             AbsoluteThickness[2], 
+             Line[{{
+                
+                Part[$CellContext`products$, $CellContext`i, 
+                 1], $CellContext`prodZero}, {
+                
+                Part[$CellContext`products$, $CellContext`i, 
+                 1], $CellContext`prodZero + 
+                Part[$CellContext`products$, $CellContext`i, 
+                   2] $CellContext`pScale$}}]}, {$CellContext`i, 
+             Length[$CellContext`products$]}]; $CellContext`meanLine$ = 
+          If[$CellContext`oStartPos$ <= $CellContext`oEndPos$, {Black, 
+             AbsoluteThickness[2], 
+             
+             Line[{{$CellContext`oStartPos$, $CellContext`prodZero + \
+$CellContext`corrVal$ $CellContext`pScale$}, {$CellContext`oEndPos$, \
+$CellContext`prodZero + $CellContext`corrVal$ $CellContext`pScale$}}]}, {}]; \
+$CellContext`meanLabel$ = If[$CellContext`oStartPos$ <= $CellContext`oEndPos$, 
+            Text[
+             Style[
+              Row[{
+                OverHat["R"], "(\[Tau]) = ", 
+                NumberForm[$CellContext`corrVal$, {4, 3}]}], Bold, 11, 
+              Black], {$CellContext`axMax - 
+              5, $CellContext`prodZero + $CellContext`corrVal$ \
+$CellContext`pScale$}, {1, 
+             0}], {}]; $CellContext`bracketY$ = $CellContext`plotBottom + 
+           0.05; $CellContext`overlapBracket$ = If[$CellContext`tau$ != 0, {
+             Darker[Green], 
+             AbsoluteThickness[2], 
+             
+             Line[{{$CellContext`oStartPos$, $CellContext`bracketY$}, \
+{$CellContext`oEndPos$, $CellContext`bracketY$}}], 
+             
+             Line[{{$CellContext`oStartPos$, $CellContext`bracketY$ - 
+                0.08}, {$CellContext`oStartPos$, $CellContext`bracketY$ + 
+                0.08}}], 
+             
+             Line[{{$CellContext`oEndPos$, $CellContext`bracketY$ - 
+                0.08}, {$CellContext`oEndPos$, $CellContext`bracketY$ + 
+                0.08}}], 
+             Text[
+              Style[
+              "overlap: " <> ToString[$CellContext`ov$] <> " pts", Bold, 9, 
+               Darker[
+               Green]], {($CellContext`oStartPos$ + $CellContext`oEndPos$)/
+               2, $CellContext`bracketY$ - 
+               0.18}]}, {}]; $CellContext`revStart$ = 
+          Min[0, $CellContext`tau$]; $CellContext`revEnd$ = 
+          Max[0, $CellContext`tau$]; $CellContext`cMin$ = Min[
+            Values[$CellContext`activeCorr$]]; $CellContext`cMax$ = Max[
+            Values[$CellContext`activeCorr$]]; $CellContext`margin$ = 
+          Max[0.005, ($CellContext`cMax$ - $CellContext`cMin$) 
+            0.03]; $CellContext`cMin$ = $CellContext`cMin$ - \
+$CellContext`margin$; $CellContext`cMax$ = $CellContext`cMax$ + \
+$CellContext`margin$; $CellContext`corrLabel$ = 
+          Switch[$CellContext`corrMode$$, "Rxy", 
+            Row[{
+              OverHat[
+               Subscript["R", "xy"]], "(\[Tau])"}], "Rxx", 
+            Row[{
+              OverHat[
+               Subscript["R", "xx"]], "(\[Tau])"}], "Ryy", 
+            Row[{
+              OverHat[
+               Subscript["R", "yy"]], "(\[Tau])"}]]; Column[{
+            
+            Graphics[{$CellContext`shadingX$, $CellContext`shadingYbeyond$, \
+$CellContext`shadingXonly$, $CellContext`sig1Line$, \
+$CellContext`sig2Overlap$, $CellContext`sig2Beyond$, {
+               GrayLevel[0.85], 
+               AbsoluteThickness[0.5], 
+               
+               Line[{{$CellContext`axMin, 0}, {$CellContext`axMax, 
+                  0}}]}, $CellContext`separator$, $CellContext`prodZeroLine$, \
+$CellContext`prodLabelLeft$, $CellContext`prodBars$, $CellContext`meanLine$, \
+$CellContext`meanLabel$, $CellContext`overlapBracket$}, 
+             PlotRange -> {{$CellContext`axMin, $CellContext`axMax}, \
+{$CellContext`plotBottom - 0.3, $CellContext`sigMax + 0.15}}, Frame -> True, 
+             FrameLabel -> {"Sample index", None}, PlotLabel -> Style[
+               
+               Row[{"Signals and products: ", $CellContext`sig1Name$, 
+                 " \[CenterDot] ", $CellContext`sig2Name$, 
+                 "    (\[Tau] = ", $CellContext`tau$, ")"}], Bold, 13], 
+             ImageSize -> {900, Automatic}, 
+             ImagePadding -> $CellContext`commonPadding, AspectRatio -> 0.45, 
+             FrameTicks -> {
+               Range[$CellContext`axMin, $CellContext`axMax, 100], 
+               Join[
+                
+                Table[{$CellContext`v, $CellContext`v}, {$CellContext`v, -1, 
+                  1, 0.5}], 
+                
+                Table[{$CellContext`prodZero + $CellContext`v \
+$CellContext`pScale$, 
+                  NumberForm[
+                   N[$CellContext`v], {3, 2}]}, {$CellContext`v, -
+                  Round[$CellContext`maxProd$, $CellContext`pTickStep$], 
+                  
+                  Round[$CellContext`maxProd$, $CellContext`pTickStep$], \
+$CellContext`pTickStep$}]]}, BaseStyle -> {FontSize -> 11}], 
+            Row[{
+              Graphics[{Thick, $CellContext`sig1Color$, 
+                Line[{{0, 0}, {1, 0}}]}, ImageSize -> {20, 10}], 
+              " " <> $CellContext`sig1Name$ <> "   ", 
+              Graphics[{Thick, $CellContext`sig2Color$, 
+                Line[{{0, 0}, {1, 0}}]}, ImageSize -> {20, 10}], 
+              " " <> $CellContext`sig2Name$ <> "   ", 
+              Graphics[{
+                Darker[Green], 
+                Rectangle[{0, 0}, {1, 1}]}, ImageSize -> {10, 10}], 
+              " prod>0  ", 
+              Graphics[{Red, 
+                Rectangle[{0, 0}, {1, 1}]}, ImageSize -> {10, 10}], 
+              " prod<0  ", 
+              Graphics[{Black, Thick, 
+                Line[{{0, 0}, {1, 0}}]}, ImageSize -> {20, 10}], " mean = ", 
+              OverHat["R"], "(\[Tau])"}, 
+             Spacer[3]], 
+            Spacer[8], 
+            Graphics[{{LightGray, 
+               Line[{{-$CellContext`mMax, 0}, {$CellContext`mMax, 0}}]}, {
+              LightGray, Dashed, 
+               Line[{{0, $CellContext`cMin$}, {0, $CellContext`cMax$}}]}, {
+               GrayLevel[0.7], 
+               AbsoluteThickness[1.5], 
+               Line[
+                Table[{$CellContext`l, 
+                  $CellContext`activeCorr$[$CellContext`l]}, {$CellContext`l, \
+-$CellContext`mMax, $CellContext`mMax}]]}, {Black, 
+               AbsoluteThickness[2.5], 
+               Line[
+                Table[{$CellContext`l, 
+                  $CellContext`activeCorr$[$CellContext`l]}, {$CellContext`l, \
+$CellContext`revStart$, $CellContext`revEnd$}]]}, {Black, 
+               PointSize[0.006], 
+               Point[
+                Table[{$CellContext`l, 
+                  $CellContext`activeCorr$[$CellContext`l]}, {$CellContext`l, \
+$CellContext`revStart$, $CellContext`revEnd$}]]}, {Red, 
+               PointSize[Large], 
+               Point[{$CellContext`tau$, $CellContext`corrVal$}]}, {
+              Red, Dashed, 
+               AbsoluteThickness[1.5], 
+               
+               Line[{{$CellContext`tau$, $CellContext`corrVal$}, \
+{$CellContext`tau$, $CellContext`cMin$}}]}}, 
+             PlotRange -> {{-$CellContext`mMax, $CellContext`mMax}, \
+{$CellContext`cMin$, $CellContext`cMax$}}, Frame -> True, 
+             FrameLabel -> {"Lag \[Tau]", $CellContext`corrLabel$}, PlotLabel -> 
+             Style[
+               
+               Switch[$CellContext`corrMode$$, "Rxy", 
+                "Cross-Correlation Function (revealed progressively)", "Rxx", 
+                "Auto-Correlation of x (revealed progressively)", "Ryy", 
+                "Auto-Correlation of y (revealed progressively)"], Bold, 13], 
+             ImageSize -> {900, Automatic}, 
+             ImagePadding -> $CellContext`commonPadding, AspectRatio -> 0.22, 
+             FrameTicks -> {
+               Range[-$CellContext`mMax, $CellContext`mMax, 10], Automatic}, 
+             BaseStyle -> {FontSize -> 11}], 
+            Spacer[10], 
+            Style[
+             Column[{
+               
+               Row[{"Sample rate: ", $CellContext`fs/1000, 
+                 " kHz    Signal length: ", $CellContext`nSamples, 
+                 " samples    Max lag: \[PlusMinus]", $CellContext`mMax}], \
+$CellContext`sd$["label"] <> 
+               If[$CellContext`flipX$$, "  \[LeftArrow] NEGATED", ""], 
+               Row[{"y[t]: x[t] \[RightArrow] 2nd-order system (", 
+                 Subscript["K", "dc"], " = ", $CellContext`Kdc, ", ", 
+                 Subscript["f", "n"], " = ", $CellContext`fn/1000, 
+                 " kHz, \[Zeta] = ", $CellContext`zeta, ")"}], 
+               If[$CellContext`flipY$$, "y[t]: NEGATED", ""]}, Spacings -> 
+              0.3], 11, Gray]}, Alignment -> Center]], StandardForm],
+       ImageSizeCache->{900., {391.04461523437493`, 396.77654882812493`}}]}
+    },
+    DefaultBaseStyle->"Column",
+    GridBoxAlignment->{"Columns" -> {{Center}}},
+    GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+   "Column"],
+  DynamicModuleValues:>{}]], "Output",
+ CellChangeTimes->{3.985003495213668*^9, 3.985003776065805*^9, 
+  3.98500386701514*^9, 3.9850039229712477`*^9, 3.98500397852929*^9, 
+  3.985004042765386*^9, 3.985023092026404*^9, 3.985086720633408*^9, 
+  3.985086968356596*^9, 3.985172341636948*^9},
+ CellLabel->"Out[74]=",ExpressionUUID->"d0f35dc3-a611-471c-8b52-dabc02de01d0"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1449, 958},
+WindowMargins->{{Automatic, -240}, {Automatic, 293}},
+FrontEndVersion->"14.3 for Mac OS X ARM (64-bit) (July 8, 2025)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"dd88aca9-9a71-4e18-9cbc-132fda9b8ed1"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[554, 20, 220, 2, 66, "Section",ExpressionUUID->"046831f1-8b76-4e56-9dca-9f81a0e5043d"],
+Cell[CellGroupData[{
+Cell[799, 26, 853, 12, 52, "Section",ExpressionUUID->"6f0478f5-1aa9-4205-981d-9a2faa3f0076"],
+Cell[1655, 40, 779, 16, 68, "Subsubsection",ExpressionUUID->"ce4a2b52-5de3-4509-b6fd-f10d3d7c91bf"],
+Cell[CellGroupData[{
+Cell[2459, 60, 160, 3, 35, "Subsubsection",ExpressionUUID->"c6ee832c-07ad-4dcb-839f-55609c9583fe"],
+Cell[2622, 65, 744, 16, 77, "Text",ExpressionUUID->"02b2e6f9-b2d9-48a3-8c87-c614bc46dc31"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3403, 86, 163, 3, 43, "Subsubsection",ExpressionUUID->"6c96e224-15a8-4f78-9133-0d056e12f09f"],
+Cell[3569, 91, 1103, 17, 33, "Text",ExpressionUUID->"2dad5f2e-a966-453f-9544-b9e42258e89c"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4709, 113, 210, 4, 43, "Subsubsection",ExpressionUUID->"f5654ee7-6bb4-4e0e-b9eb-1acfef97c3b3"],
+Cell[4922, 119, 2237, 33, 99, "Text",ExpressionUUID->"137c9b53-486b-4b32-98f4-9686c64addaf"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7196, 157, 168, 3, 43, "Subsubsection",ExpressionUUID->"cd2e4c7f-054e-47cc-8b90-a3dfac9f8885"],
+Cell[7367, 162, 645, 11, 77, "Text",ExpressionUUID->"5176c657-91db-4a5c-9dee-3f282bdbc223"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[8049, 178, 156, 3, 43, "Subsubsection",ExpressionUUID->"4700d0ce-a4cc-452a-a647-b0e753eda4f5"],
+Cell[8208, 183, 627, 11, 99, "Text",ExpressionUUID->"1dc0d4c3-1615-43d7-911e-c14e78d658ee"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[8872, 199, 157, 3, 43, "Subsubsection",ExpressionUUID->"1a1a8937-a2e6-409c-9ffb-4f2a3ee9468e"],
+Cell[CellGroupData[{
+Cell[9054, 206, 71035, 1657, 19, "Input",ExpressionUUID->"8105b5fc-cdc2-412a-a0c5-a26fd86967df",
+ CellOpen->False],
+Cell[80092, 1865, 20436, 413, 905, "Output",ExpressionUUID->"d0f35dc3-a611-471c-8b52-dabc02de01d0"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+

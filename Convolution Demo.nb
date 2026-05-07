@@ -1,0 +1,1981 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Wolfram 14.3' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       154,          7]
+NotebookDataLength[     86506,       1973]
+NotebookOptionsPosition[     84640,       1931]
+NotebookOutlinePosition[     85034,       1947]
+CellTagsIndexPosition[     84991,       1944]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell["MICA: Measurement, Instrumentation, Control and Analysis", "Section",
+ CellChangeTimes->{{3.777731644083204*^9, 3.777731779790965*^9}},
+ TextAlignment->Center,ExpressionUUID->"046831f1-8b76-4e56-9dca-9f81a0e5043d"],
+
+Cell[CellGroupData[{
+
+Cell[TextData[StyleBox["Convolution Demo",
+ FontWeight->"Bold",
+ FontColor->GrayLevel[0]]], "Section",
+ CellChangeTimes->{{3.7794602524929657`*^9, 3.7794602627786074`*^9}, {
+   3.780579372633925*^9, 3.780579377632752*^9}, {3.781270117259837*^9, 
+   3.7812701180721397`*^9}, {3.781299085940478*^9, 3.7812990896427298`*^9}, 
+   3.781352021192113*^9, {3.782400818310824*^9, 3.78240082205414*^9}, {
+   3.795796900064168*^9, 3.7957969131777515`*^9}, {3.969716337913333*^9, 
+   3.9697163471530046`*^9}, {3.969725993074291*^9, 3.969726024426602*^9}, {
+   3.9701530270754633`*^9, 3.970153033764112*^9}, {3.9719667710374126`*^9, 
+   3.971966772398761*^9}, {3.971966807035488*^9, 3.9719668075889883`*^9}, {
+   3.9848399539588337`*^9, 3.9848399653586683`*^9}, {3.9849210762653008`*^9, 
+   3.984921088001903*^9}},
+ TextAlignment->Center,ExpressionUUID->"6f0478f5-1aa9-4205-981d-9a2faa3f0076"],
+
+Cell["\<\
+Ian Hunter, 
+14 April 2025\
+\>", "Subsubsection",
+ CellChangeTimes->CompressedData["
+1:eJxTTMoPSmViYGBQAGIQPXtlU3ux6hvHDIONs0A054YJhRVAunzDDjDd1Nb8
+pVT9jeOJz8++guhFIeF/Z2m9cbQ79xlM38hbOFVG+43j1oKNYPpy89JeM503
+jiwMK8F07dr3Jq66bxyvzP1oCqLncZ+yjtIDmsd9Hkyfijx2bZ7RG8cExYvX
+QXTswTk6/PZAc2/P1gPRb/vDOGQcgfYubQHTpgc2l79wf+MYcCSrAkQvvdPz
+pG/+G0etxLanIJrhlH6JmPJbx3nhUeUgWvLJnBoQbbZ3NZjOebzpk6HxW8eO
+h+pfQLSPX6djXN5bxz5lVycQHcvRJx+Z/9bxXvJcMK0k/UT836S3ji2N4hIg
+Ou+uVJ/W5LeOe5otwfTfrGDV2ilAc9YkgmnDdxH6WVOB5k+JAtPWM12XLQbS
+f/6uANOC2wqve08Dql/VcgNEZ72aZ35g1ltHl4wzYJrH/Zk1iH7AsMMGRJfY
+uaVGzwba5/kITD/6vvltEpBuK7/7DkTv1jjNsWb9W8dNBjs4QfSuBS8nXwfS
+1eVvwPTbp3s8tTa8dbzzdz+YZmRLnFcFpMWcwueDaADTPAeH
+  "],
+ TextAlignment->Center,ExpressionUUID->"ce4a2b52-5de3-4509-b6fd-f10d3d7c91bf"],
+
+Cell[CellGroupData[{
+
+Cell["Revisions", "Subsubsection",
+ CellChangeTimes->{{3.895001072993277*^9, 
+  3.895001079622945*^9}},ExpressionUUID->"c6ee832c-07ad-4dcb-839f-\
+55609c9583fe"],
+
+Cell["\<\
+2026\t\tApr\t11\tStarted
+\t\t\t\
+\>", "Text",
+ CellChangeTimes->CompressedData["
+1:eJxTTMoPSmViYGBQAGIQ/eqFBoMC61vHAPfHzCA6+nhNaiTPW8eaP5uzQbTp
+0uOr58m8dTzy/85aEO3IvOSKoPJbx32GfvdB9HUWxxwxIF0Wlwamb3j4fzM0
+fus4oaT7J4hmVSo56gSkC0NijoHoF1prNrkAaYXL/7eCaNZfK53i8t46cnlO
+dwXRKqnnL4NoE9YJV0C0jXWNTieQvvL5Mpi+dt9GITL/reMyLVZ1EL15ximJ
+f5PeOj5d+UMaRPc0p+jKTAbqT6o2BtFXRbTW6ADpVdKOYFqpc/0HbyDdrfHx
+F4h2kTASWwSk1+nsUAbREf+uXlkGpKPSgm6D6BWSwqK1U946fjI7LwGiOe7M
+XfgVSG8qil0Cor9dPv0ARPPnl74E0SUam3Kzpr51FGoyywfRPaF9CxcD6dVL
+3i0C0RMmXr/pPe2t44E93XdAtMLs5wYHZr11tN7+0AxEh0YvTIueDQznKzsy
+QXTcsUKuNevfOioyLxEE0WYqi+9cA9I7Pj68C6IFPj3suQ6kBd3O94PoRc5b
++LU2AOPtQaowiE778v5pBZB+wGj/AkQfWiw3cTGQdlq4CEwDAEqmCqg=
+  "],ExpressionUUID->"02b2e6f9-b2d9-48a3-8c87-c614bc46dc31"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Keywords", "Subsubsection",
+ CellChangeTimes->{{3.8950011521921034`*^9, 
+  3.8950011540714774`*^9}},ExpressionUUID->"6c96e224-15a8-4f78-9133-\
+0d056e12f09f"],
+
+Cell["\<\
+Convolution, Gaussian White Noise, Second-order Low Pass Filter, Impulse \
+Response Function\
+\>", "Text",
+ CellChangeTimes->CompressedData["
+1:eJxTTMoPSmViYGAQBmIQfbz36TNB5beOdZ8qPoLod1vDf4PoTfwy/0H0ooBC
+YSEg/evhKzA9+3NGhwSQrtp6axmITuk7v8LI+K2jyKIrYLqr+UaG7+S3jl89
+cjNB9JbnpnkgOidjVxWYf5SjAUQfvlLXBqL3/ciTqp3y1tHm0H0wvbfH99VX
+IH0g0/M1iFY7zrhk8dS3jvZX3cC0x84/eVfXv3W0PbqvDERP1dxdDaJn7fNs
+ANGKEYc7QLTfFpseEN306fcEEN2XnTsJRG/OXbz3GpB2cCg+AaJViuzOgOjX
+R6vPg+jze++8qNjw1vHHT7P3INrp4fZLi4D0g4Zd10A0AOCGrfA=
+  "],ExpressionUUID->"2dad5f2e-a966-453f-9544-b9e42258e89c"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Objectives", "Subsubsection",
+ CellChangeTimes->{{3.777730627291581*^9, 3.777730650059589*^9}, {
+  3.780420495007248*^9, 
+  3.780420498367403*^9}},ExpressionUUID->"f5654ee7-6bb4-4e0e-b9eb-\
+1acfef97c3b3"],
+
+Cell["\<\
+In the following we show how an impulse response function, h, is convolved \
+with an input signal, x, to produce the output, y. In this demo you can \
+select the input to be Gaussian white noise, a unit step or a unit area \
+impulse. \
+\>", "Text",
+ CellChangeTimes->{{3.795792637159613*^9, 3.795793460878191*^9}, {
+   3.795793497478001*^9, 3.795793876154686*^9}, {3.795793916938582*^9, 
+   3.795793966336678*^9}, {3.795794001200252*^9, 3.7957940824750032`*^9}, {
+   3.795796053815051*^9, 3.795796074506651*^9}, {3.795796111797822*^9, 
+   3.795796111891233*^9}, {3.795965073191126*^9, 3.7959650853695903`*^9}, 
+   3.79596516467314*^9, {3.797239742146985*^9, 3.797239742861068*^9}, 
+   3.8419274179990473`*^9, {3.841927496011288*^9, 3.8419276107841454`*^9}, {
+   3.841927728568209*^9, 3.841927772826125*^9}, {3.9107102565276756`*^9, 
+   3.910710288071786*^9}, {3.910710343672055*^9, 3.9107106719512405`*^9}, 
+   3.910711633560255*^9, {3.9191565777743816`*^9, 3.919156578934387*^9}, 
+   3.9191566127490406`*^9, {3.950178988320469*^9, 3.9501790310876913`*^9}, {
+   3.950266766901586*^9, 3.950266770116702*^9}, {3.969716548035804*^9, 
+   3.969716759049933*^9}, {3.9697167911328*^9, 3.969716955583425*^9}, {
+   3.9697169857342033`*^9, 3.96971737072225*^9}, {3.969717424511647*^9, 
+   3.969717586696678*^9}, {3.969717623137238*^9, 3.969717679925585*^9}, {
+   3.9697261984921017`*^9, 3.969726572810769*^9}, {3.969726700633334*^9, 
+   3.969726703437751*^9}, {3.969726736645939*^9, 3.969726807630919*^9}, {
+   3.9699871760955687`*^9, 3.969987423894044*^9}, {3.9699874799375057`*^9, 
+   3.9699876838647614`*^9}, {3.969987726368348*^9, 3.9699877460420218`*^9}, {
+   3.970164985974989*^9, 3.970164988314562*^9}, {3.970412403093502*^9, 
+   3.970412633071766*^9}, {3.984501924666155*^9, 3.984501947314375*^9}, {
+   3.98483648575274*^9, 3.9848367878849688`*^9}, {3.9849220118493767`*^9, 
+   3.9849220306485653`*^9}, {3.9849223016371326`*^9, 3.984922330352859*^9}, {
+   3.984922520961833*^9, 3.9849225961747923`*^9}, {3.984923749059092*^9, 
+   3.9849237599021463`*^9}},ExpressionUUID->"137c9b53-486b-4b32-98f4-\
+9686c64addaf"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Notes", "Subsubsection",
+ CellChangeTimes->{{3.984839477917611*^9, 
+  3.984839479078392*^9}},ExpressionUUID->"139662b3-c15c-4d8e-a4e5-\
+4d3bcc5f2052"],
+
+Cell["\<\
+To reset the demo go to the Evaluation tab and select Evaluate Notebook.\
+\>", "Text",
+ CellChangeTimes->{{3.984839485556938*^9, 3.984839673990828*^9}, {
+  3.9850867362530413`*^9, 3.9850867779601307`*^9}, {3.9850868260542707`*^9, 
+  3.985086829270677*^9}},ExpressionUUID->"1e4bd6a3-685e-4607-a97d-\
+bb63c08fd71a"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Demo", "Subsubsection",
+ CellChangeTimes->{{3.984921110202457*^9, 
+  3.984921110890852*^9}},ExpressionUUID->"c34c5df7-6006-4472-9eba-\
+f10e7f719677"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", 
+   RowBox[{"Convolution", " ", "Interactive", " ", "Demonstration"}], "*)"}], 
+  
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"x", "=", 
+     RowBox[{"selectable", " ", "input"}]}], ",", 
+    RowBox[{"h", "=", 
+     RowBox[{
+      RowBox[{"impulse", " ", "response", " ", "of", " ", "2", "nd"}], "-", 
+      RowBox[{"order", " ", "system"}]}]}]}], "*)"}], 
+  RowBox[{"(*", 
+   RowBox[{
+    RowBox[{"y", "[", "n", "]"}], "=", 
+    RowBox[{"Sum_", 
+     RowBox[{"{", "k", "}"}], " ", 
+     RowBox[{"h", "[", "k", "]"}], "*", 
+     RowBox[{"x", "[", 
+      RowBox[{"n", "-", "k"}], "]"}]}]}], "*)"}], 
+  RowBox[{
+   RowBox[{
+    RowBox[{"SeedRandom", "[", "42", "]"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"fs", "=", "50000"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"dt", "=", 
+     RowBox[{"1", "/", "fs"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"nSamples", "=", "1000"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"nTransient", "=", "500"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"Second", "-", 
+     RowBox[{"order", " ", "system", " ", "parameters"}]}], "*)"}], "\n", 
+   RowBox[{
+    RowBox[{"Kdc", "=", "2"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"fn", "=", "1000"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"wn", "=", 
+     RowBox[{"2", " ", "Pi", " ", "fn"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"zeta", "=", "0.3"}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"sosCont", "=", 
+     RowBox[{"TransferFunctionModel", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"{", 
+         RowBox[{"Kdc", " ", 
+          RowBox[{
+           RowBox[{"wn", "^", "2"}], "/", 
+           RowBox[{"(", 
+            RowBox[{
+             RowBox[{"s", "^", "2"}], "+", 
+             RowBox[{"2", " ", "zeta", " ", "wn", " ", "s"}], "+", 
+             RowBox[{"wn", "^", "2"}]}], ")"}]}]}], "}"}], "}"}], ",", "s"}], 
+      "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"sosDisc", "=", 
+     RowBox[{"ToDiscreteTimeModel", "[", 
+      RowBox[{"sosCont", ",", "dt"}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"Impulse", " ", "response"}], "*)"}], "\n", 
+   RowBox[{
+    RowBox[{"hFull", "=", 
+     RowBox[{"Flatten", "[", 
+      RowBox[{"OutputResponse", "[", 
+       RowBox[{"sosDisc", ",", 
+        RowBox[{"Join", "[", 
+         RowBox[{
+          RowBox[{"{", "1", "}"}], ",", 
+          RowBox[{"ConstantArray", "[", 
+           RowBox[{"0", ",", "999"}], "]"}]}], "]"}]}], "]"}], "]"}]}], ";"}],
+    "\n", 
+   RowBox[{
+    RowBox[{"hLen", "=", 
+     RowBox[{"nSamples", "-", 
+      RowBox[{
+       RowBox[{"Position", "[", 
+        RowBox[{
+         RowBox[{"Reverse", "[", "hFull", "]"}], ",", 
+         RowBox[{"_", "?", 
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"Abs", "[", "#", "]"}], ">", 
+             RowBox[{"0.001", " ", 
+              RowBox[{"Max", "[", 
+               RowBox[{"Abs", "[", "hFull", "]"}], "]"}]}]}], "&"}], ")"}]}], 
+         ",", "1", ",", "1"}], "]"}], "[", 
+       RowBox[{"[", 
+        RowBox[{"1", ",", "1"}], "]"}], "]"}], "+", "1"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"hLen", "=", 
+     RowBox[{"Max", "[", 
+      RowBox[{"hLen", ",", "50"}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"hLen", "=", 
+     RowBox[{"Min", "[", 
+      RowBox[{"hLen", ",", "300"}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"h", "=", 
+     RowBox[{"hFull", "[", 
+      RowBox[{"[", 
+       RowBox[{"1", ";;", "hLen"}], "]"}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"h", "[", 
+      RowBox[{"[", "1", "]"}], "]"}], "=", "0."}], ";"}], " ", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"strictly", " ", "proper", " ", 
+      RowBox[{"system", ":", 
+       RowBox[{"h", 
+        RowBox[{"(", "0", ")"}]}]}]}], "=", "0"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"hNorm", "=", 
+     RowBox[{"h", "/", 
+      RowBox[{"Max", "[", 
+       RowBox[{"Abs", "[", "h", "]"}], "]"}]}]}], ";"}], "\n", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"Convolution", " ", "function"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"convolve", "[", "xSig_", "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", "xPad", "}"}], ",", 
+       RowBox[{
+        RowBox[{"xPad", "=", 
+         RowBox[{"Join", "[", 
+          RowBox[{
+           RowBox[{"ConstantArray", "[", 
+            RowBox[{"0.", ",", 
+             RowBox[{"hLen", "-", "1"}]}], "]"}], ",", "xSig"}], "]"}]}], ";",
+         "\[IndentingNewLine]", 
+        RowBox[{"Table", "[", 
+         RowBox[{
+          RowBox[{"Sum", "[", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"h", "[", 
+              RowBox[{"[", 
+               RowBox[{"k", "+", "1"}], "]"}], "]"}], "*", 
+             RowBox[{"xPad", "[", 
+              RowBox[{"[", 
+               RowBox[{"n", "-", "k", "+", "hLen"}], "]"}], "]"}]}], ",", 
+            RowBox[{"{", 
+             RowBox[{"k", ",", "0", ",", 
+              RowBox[{"hLen", "-", "1"}]}], "}"}]}], "]"}], ",", 
+          RowBox[{"{", 
+           RowBox[{"n", ",", "0", ",", 
+            RowBox[{"nSamples", "-", "1"}]}], "}"}]}], "]"}]}]}], "]"}]}], 
+    ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"===", 
+      RowBox[{"Input", " ", "1"}]}], ":", 
+     RowBox[{
+      RowBox[{"White", " ", "noise"}], "==="}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"xNoiseAll", "=", 
+     RowBox[{"RandomVariate", "[", 
+      RowBox[{
+       RowBox[{"NormalDistribution", "[", "]"}], ",", 
+       RowBox[{"nSamples", "+", "nTransient"}]}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"xNoise", "=", 
+     RowBox[{"Take", "[", 
+      RowBox[{"xNoiseAll", ",", 
+       RowBox[{"-", "nSamples"}]}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"xNoise", "=", 
+     RowBox[{"xNoise", "/", 
+      RowBox[{"Max", "[", 
+       RowBox[{"Abs", "[", "xNoise", "]"}], "]"}]}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"yNoise", "=", 
+     RowBox[{"convolve", "[", "xNoise", "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"yNoise", "=", 
+     RowBox[{"yNoise", "/", 
+      RowBox[{"Max", "[", 
+       RowBox[{"Abs", "[", "yNoise", "]"}], "]"}]}]}], ";"}], "\n", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"===", 
+      RowBox[{"Input", " ", "2"}]}], ":", 
+     RowBox[{
+      RowBox[{"Unit", " ", "step", " ", 
+       RowBox[{"(", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"1", " ", "for", " ", "t"}], ">=", "0"}], ",", 
+         RowBox[{
+          RowBox[{"0", " ", "for", " ", "t"}], "<", "0"}]}], ")"}]}], 
+      "==="}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"xStep", "=", 
+     RowBox[{"ConstantArray", "[", 
+      RowBox[{"1.", ",", "nSamples"}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"yStep", "=", 
+     RowBox[{"convolve", "[", "xStep", "]"}]}], ";"}], " ", 
+   RowBox[{"(*", 
+    RowBox[{
+     RowBox[{"true", " ", "values"}], "\[LongDash]", 
+     RowBox[{
+      RowBox[{"settles", " ", "to", " ", "Kdc"}], "=", "2"}]}], "*)"}], "\n", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", " ", 
+    RowBox[{
+     RowBox[{"===", 
+      RowBox[{"Input", " ", "3"}]}], ":", 
+     RowBox[{
+      RowBox[{"Unit", " ", "impulse", " ", 
+       RowBox[{"(", 
+        RowBox[{"area", "=", "1"}], ")"}]}], "==="}]}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"xImpulse", "=", 
+     RowBox[{"ConstantArray", "[", 
+      RowBox[{"0.", ",", "nSamples"}], "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"xImpulse", "[", 
+      RowBox[{"[", "1", "]"}], "]"}], "=", 
+     RowBox[{"1", "/", "dt"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"yImpulse", "=", 
+     RowBox[{"convolve", "[", "xImpulse", "]"}]}], ";"}], "\n", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"Common", " ", "axis", " ", "range"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"axMin", "=", 
+     RowBox[{"-", "200"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"axMax", "=", "1000"}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"Layout", " ", "constants"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"prodZero", "=", 
+     RowBox[{"-", "3.0"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"sepY", "=", 
+     RowBox[{"-", "1.7"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"prodMargin", "=", "1.35"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"plotBottom", "=", 
+     RowBox[{"prodZero", "-", "prodMargin"}]}], ";"}], "\n", 
+   "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{"Max", " ", "product", " ", "per", " ", "mode"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"computeMaxProd", "[", "xSigDisp_", "]"}], ":=", 
+     RowBox[{"Module", "[", 
+      RowBox[{
+       RowBox[{"{", "xPad", "}"}], ",", 
+       RowBox[{
+        RowBox[{"xPad", "=", 
+         RowBox[{"Join", "[", 
+          RowBox[{
+           RowBox[{"ConstantArray", "[", 
+            RowBox[{"0.", ",", 
+             RowBox[{"hLen", "-", "1"}]}], "]"}], ",", "xSigDisp"}], "]"}]}], 
+        ";", "\[IndentingNewLine]", 
+        RowBox[{"Max", "@", 
+         RowBox[{"Table", "[", 
+          RowBox[{
+           RowBox[{"Max", "[", 
+            RowBox[{"Abs", "[", 
+             RowBox[{"Table", "[", 
+              RowBox[{
+               RowBox[{
+                RowBox[{"hNorm", "[", 
+                 RowBox[{"[", 
+                  RowBox[{"k", "+", "1"}], "]"}], "]"}], "*", 
+                RowBox[{"xPad", "[", 
+                 RowBox[{"[", 
+                  RowBox[{"n", "-", "k", "+", "hLen"}], "]"}], "]"}]}], ",", 
+               RowBox[{"{", 
+                RowBox[{"k", ",", "0", ",", 
+                 RowBox[{"hLen", "-", "1"}]}], "}"}]}], "]"}], "]"}], "]"}], ",", 
+           RowBox[{"{", 
+            RowBox[{"n", ",", "0", ",", 
+             RowBox[{"nSamples", "-", "1"}], ",", "10"}], "}"}]}], 
+          "]"}]}]}]}], "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"maxProdNoise", "=", 
+     RowBox[{"computeMaxProd", "[", "xNoise", "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"maxProdStep", "=", 
+     RowBox[{"computeMaxProd", "[", "xStep", "]"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"maxProdImpulse", "=", 
+     RowBox[{"computeMaxProd", "[", 
+      RowBox[{"xImpulse", "/", 
+       RowBox[{"Max", "[", 
+        RowBox[{"Abs", "[", "xImpulse", "]"}], "]"}]}], "]"}]}], ";"}], "\n", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"nMin", "=", "0"}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"nMax", "=", 
+     RowBox[{"nSamples", "-", "1"}]}], ";"}], "\n", 
+   RowBox[{
+    RowBox[{"commonPadding", "=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"60", ",", "60"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"40", ",", "20"}], "}"}]}], "}"}]}], ";"}], 
+   "\[IndentingNewLine]", "\n", 
+   RowBox[{"(*", 
+    RowBox[{"Custom", " ", "slider"}], "*)"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{
+     RowBox[{"customSlider", "[", 
+      RowBox[{
+       RowBox[{"Dynamic", "[", "val_", "]"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"lo_", ",", "hi_", ",", "step_"}], "}"}], ",", "width_"}], 
+      "]"}], ":=", 
+     RowBox[{"DynamicModule", "[", 
+      RowBox[{
+       RowBox[{"{", "pos", "}"}], ",", 
+       RowBox[{
+        RowBox[{"pos", "=", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"Rescale", "[", 
+            RowBox[{"val", ",", 
+             RowBox[{"{", 
+              RowBox[{"lo", ",", "hi"}], "}"}], ",", 
+             RowBox[{"{", 
+              RowBox[{"0", ",", "width"}], "}"}]}], "]"}], ",", "0"}], 
+          "}"}]}], ";", "\[IndentingNewLine]", 
+        RowBox[{"LocatorPane", "[", 
+         RowBox[{
+          RowBox[{"Dynamic", "[", 
+           RowBox[{"pos", ",", 
+            RowBox[{
+             RowBox[{"(", 
+              RowBox[{
+               RowBox[{"pos", "=", 
+                RowBox[{"{", 
+                 RowBox[{
+                  RowBox[{"Clip", "[", 
+                   RowBox[{
+                    RowBox[{"#", "[", 
+                    RowBox[{"[", "1", "]"}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", "width"}], "}"}]}], "]"}], ",", "0"}], 
+                 "}"}]}], ";", "\[IndentingNewLine]", 
+               RowBox[{"val", "=", 
+                RowBox[{"Round", "[", 
+                 RowBox[{
+                  RowBox[{"Rescale", "[", 
+                   RowBox[{
+                    RowBox[{"pos", "[", 
+                    RowBox[{"[", "1", "]"}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", "width"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"lo", ",", "hi"}], "}"}]}], "]"}], ",", "step"}], 
+                 "]"}]}]}], ")"}], "&"}]}], "]"}], ",", 
+          RowBox[{"Graphics", "[", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{
+              RowBox[{"{", 
+               RowBox[{
+                RowBox[{"GrayLevel", "[", "0.78", "]"}], ",", 
+                RowBox[{"AbsoluteThickness", "[", "4", "]"}], ",", 
+                RowBox[{"Line", "[", 
+                 RowBox[{"{", 
+                  RowBox[{
+                   RowBox[{"{", 
+                    RowBox[{"0", ",", "0"}], "}"}], ",", 
+                   RowBox[{"{", 
+                    RowBox[{"width", ",", "0"}], "}"}]}], "}"}], "]"}]}], 
+               "}"}], ",", 
+              RowBox[{"{", 
+               RowBox[{
+                RowBox[{"GrayLevel", "[", "0.6", "]"}], ",", 
+                RowBox[{"AbsoluteThickness", "[", "1", "]"}], ",", 
+                RowBox[{"Line", "[", 
+                 RowBox[{"{", 
+                  RowBox[{
+                   RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Rescale", "[", 
+                    RowBox[{"0", ",", 
+                    RowBox[{"{", 
+                    RowBox[{"lo", ",", "hi"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", "width"}], "}"}]}], "]"}], ",", 
+                    RowBox[{"-", "5"}]}], "}"}], ",", 
+                   RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Rescale", "[", 
+                    RowBox[{"0", ",", 
+                    RowBox[{"{", 
+                    RowBox[{"lo", ",", "hi"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", "width"}], "}"}]}], "]"}], ",", "5"}], 
+                    "}"}]}], "}"}], "]"}]}], "}"}]}], "}"}], ",", 
+            RowBox[{"PlotRange", "->", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"{", 
+                RowBox[{
+                 RowBox[{"-", "10"}], ",", 
+                 RowBox[{"width", "+", "10"}]}], "}"}], ",", 
+               RowBox[{"{", 
+                RowBox[{
+                 RowBox[{"-", "10"}], ",", "10"}], "}"}]}], "}"}]}], ",", 
+            RowBox[{"ImageSize", "->", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"width", "+", "20"}], ",", "24"}], "}"}]}], ",", 
+            RowBox[{"ImagePadding", "->", 
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"{", 
+                RowBox[{"10", ",", "10"}], "}"}], ",", 
+               RowBox[{"{", 
+                RowBox[{"0", ",", "0"}], "}"}]}], "}"}]}]}], "]"}], ",", 
+          RowBox[{"LocatorAutoCreate", "->", "False"}], ",", 
+          RowBox[{"Appearance", "->", 
+           RowBox[{"Graphics", "[", 
+            RowBox[{
+             RowBox[{"{", 
+              RowBox[{
+               RowBox[{"GrayLevel", "[", "0.4", "]"}], ",", 
+               RowBox[{"Disk", "[", 
+                RowBox[{
+                 RowBox[{"{", 
+                  RowBox[{"0", ",", "0"}], "}"}], ",", "6"}], "]"}]}], "}"}], 
+             ",", 
+             RowBox[{"ImageSize", "->", "14"}]}], "]"}]}]}], "]"}]}]}], 
+      "]"}]}], ";"}], "\n", "\[IndentingNewLine]", 
+   RowBox[{"DynamicModule", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"currentN", "=", "0"}], ",", 
+       RowBox[{"inputMode", "=", "\"\<noise\>\""}]}], "}"}], ",", 
+     RowBox[{"Column", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"Row", "[", 
+          RowBox[{"{", 
+           RowBox[{
+            RowBox[{"Style", "[", 
+             RowBox[{"\"\<Output sample n : \>\"", ",", "Bold", ",", "14"}], 
+             "]"}], ",", 
+            RowBox[{"customSlider", "[", 
+             RowBox[{
+              RowBox[{"Dynamic", "[", "currentN", "]"}], ",", 
+              RowBox[{"{", 
+               RowBox[{"nMin", ",", "nMax", ",", "1"}], "}"}], ",", "400"}], 
+             "]"}], ",", 
+            RowBox[{"Spacer", "[", "12", "]"}], ",", 
+            RowBox[{"Dynamic", "[", 
+             RowBox[{"Style", "[", 
+              RowBox[{"currentN", ",", "Bold", ",", "18", ",", "Red"}], "]"}],
+              "]"}], ",", 
+            RowBox[{"Spacer", "[", "30", "]"}], ",", 
+            RowBox[{"Style", "[", 
+             RowBox[{"\"\<Input x[t]: \>\"", ",", "Bold", ",", "12"}], "]"}], 
+            ",", 
+            RowBox[{"PopupMenu", "[", 
+             RowBox[{
+              RowBox[{"Dynamic", "[", "inputMode", "]"}], ",", 
+              RowBox[{"{", 
+               RowBox[{
+                RowBox[{"\"\<noise\>\"", "->", "\"\<White noise\>\""}], ",", 
+                RowBox[{"\"\<step\>\"", "->", "\"\<Unit step\>\""}], ",", 
+                
+                RowBox[{"\"\<impulse\>\"", 
+                 "->", "\"\<Unit impulse (\[Delta])\>\""}]}], "}"}]}], 
+             "]"}]}], "}"}], "]"}], ",", 
+         RowBox[{"Spacer", "[", "5", "]"}], ",", 
+         RowBox[{"Dynamic", "@", 
+          RowBox[{"Module", "[", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{
+              RowBox[{"n", "=", "currentN"}], ",", "xSigDisp", ",", "yDisp", ",",
+               "maxProd", ",", "pScale", ",", "pTickStep", ",", "xLabel", ",",
+               "xSigRange", ",", "ySigRange"}], "}"}], ",", 
+            RowBox[{
+             RowBox[{
+              RowBox[{"{", 
+               RowBox[{
+               "xSigDisp", ",", "yDisp", ",", "maxProd", ",", "xLabel", ",", 
+                "xSigRange", ",", "ySigRange"}], "}"}], "=", 
+              RowBox[{"Switch", "[", 
+               RowBox[{"inputMode", ",", "\"\<noise\>\"", ",", 
+                RowBox[{"{", 
+                 RowBox[{
+                 "xNoise", ",", "yNoise", ",", "maxProdNoise", 
+                  ",", "\"\<x[t]: Gaussian white noise\>\"", ",", 
+                  RowBox[{"{", 
+                   RowBox[{
+                    RowBox[{"-", "1.3"}], ",", "1.3"}], "}"}], ",", 
+                  RowBox[{"{", 
+                   RowBox[{
+                    RowBox[{"Min", "[", "yNoise", "]"}], ",", 
+                    RowBox[{"Max", "[", "yNoise", "]"}]}], "}"}]}], "}"}], 
+                ",", "\"\<step\>\"", ",", 
+                RowBox[{"{", 
+                 RowBox[{
+                 "xStep", ",", "yStep", ",", "maxProdStep", 
+                  ",", "\"\<x[t]: Unit step (0 for t<0, 1 for \
+t\[GreaterEqual]0)\>\"", ",", 
+                  RowBox[{"{", 
+                   RowBox[{
+                    RowBox[{"-", "0.3"}], ",", "1.5"}], "}"}], ",", 
+                  RowBox[{"{", 
+                   RowBox[{
+                    RowBox[{
+                    RowBox[{"Min", "[", "yStep", "]"}], "-", "0.1"}], ",", 
+                    RowBox[{
+                    RowBox[{"Max", "[", "yStep", "]"}], "+", "0.1"}]}], 
+                   "}"}]}], "}"}], ",", "\"\<impulse\>\"", ",", 
+                RowBox[{"{", 
+                 RowBox[{
+                  RowBox[{"xImpulse", "/", 
+                   RowBox[{"Max", "[", 
+                    RowBox[{"Abs", "[", "xImpulse", "]"}], "]"}]}], ",", 
+                  RowBox[{"yImpulse", "/", 
+                   RowBox[{"Max", "[", 
+                    RowBox[{"Abs", "[", "yImpulse", "]"}], "]"}]}], ",", 
+                  "maxProdImpulse", 
+                  ",", "\"\<x[t]: Unit impulse (\[Delta] = 1/\[CapitalDelta]t \
+at t=0)\>\"", ",", 
+                  RowBox[{"{", 
+                   RowBox[{
+                    RowBox[{"-", "1.3"}], ",", "1.3"}], "}"}], ",", 
+                  RowBox[{"{", 
+                   RowBox[{
+                    RowBox[{"Min", "[", 
+                    RowBox[{"yImpulse", "/", 
+                    RowBox[{"Max", "[", 
+                    RowBox[{"Abs", "[", "yImpulse", "]"}], "]"}]}], "]"}], ",", 
+                    RowBox[{"Max", "[", 
+                    RowBox[{"yImpulse", "/", 
+                    RowBox[{"Max", "[", 
+                    RowBox[{"Abs", "[", "yImpulse", "]"}], "]"}]}], "]"}]}], 
+                   "}"}]}], "}"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+             RowBox[{"pScale", "=", 
+              RowBox[{"1.3", "/", 
+               RowBox[{"Max", "[", 
+                RowBox[{"maxProd", ",", "0.001"}], "]"}]}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"pTickStep", "=", 
+              RowBox[{"Round", "[", 
+               RowBox[{
+                RowBox[{"maxProd", "/", "3"}], ",", "0.1"}], "]"}]}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"If", "[", 
+              RowBox[{
+               RowBox[{"pTickStep", "==", "0"}], ",", 
+               RowBox[{"pTickStep", "=", 
+                RowBox[{"Max", "[", 
+                 RowBox[{"0.01", ",", 
+                  RowBox[{"maxProd", "/", "3"}]}], "]"}]}]}], "]"}], ";", 
+             "\[IndentingNewLine]", 
+             RowBox[{"Module", "[", 
+              RowBox[{
+               RowBox[{"{", 
+                RowBox[{
+                "products", ",", "yVal", ",", "xPadDisp", ",", "xLine", ",", 
+                 "xLineExtra", ",", "hRevLine", ",", "hRevFaded", ",", 
+                 "prodBars", ",", "sumLine", ",", "sumLabel", ",", 
+                 "separator", ",", "prodZeroLine", ",", "prodLabelLeft", ",", 
+                 "overlapStart", ",", "overlapEnd", ",", "shadingH", ",", 
+                 "cMin", ",", "cMax", ",", "margin", ",", "sigTop", ",", 
+                 "sigBot", ",", "sigTicks", ",", "yTicks", ",", "yLineGhost", 
+                 ",", "yLineRevealed", ",", "yLineExtra"}], "}"}], ",", 
+               RowBox[{
+                RowBox[{"xPadDisp", "=", 
+                 RowBox[{"Join", "[", 
+                  RowBox[{
+                   RowBox[{"ConstantArray", "[", 
+                    RowBox[{"0.", ",", 
+                    RowBox[{"hLen", "-", "1"}]}], "]"}], ",", "xSigDisp"}], 
+                  "]"}]}], ";", "\[IndentingNewLine]", 
+                RowBox[{"products", "=", 
+                 RowBox[{"Table", "[", 
+                  RowBox[{
+                   RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"n", "-", "k"}], ",", 
+                    RowBox[{
+                    RowBox[{"hNorm", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"k", "+", "1"}], "]"}], "]"}], "*", 
+                    RowBox[{"xPadDisp", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"n", "-", "k", "+", "hLen"}], "]"}], "]"}]}]}], 
+                    "}"}], ",", 
+                   RowBox[{"{", 
+                    RowBox[{"k", ",", "0", ",", 
+                    RowBox[{"hLen", "-", "1"}]}], "}"}]}], "]"}]}], ";", 
+                "\[IndentingNewLine]", 
+                RowBox[{"yVal", "=", 
+                 RowBox[{"yDisp", "[", 
+                  RowBox[{"[", 
+                   RowBox[{"n", "+", "1"}], "]"}], "]"}]}], ";", 
+                "\[IndentingNewLine]", 
+                RowBox[{"overlapStart", "=", 
+                 RowBox[{"Max", "[", 
+                  RowBox[{"0", ",", 
+                   RowBox[{"n", "-", 
+                    RowBox[{"(", 
+                    RowBox[{"hLen", "-", "1"}], ")"}]}]}], "]"}]}], ";", 
+                "\[IndentingNewLine]", 
+                RowBox[{"overlapEnd", "=", "n"}], ";", "\[IndentingNewLine]", 
+                
+                RowBox[{"sigBot", "=", 
+                 RowBox[{"xSigRange", "[", 
+                  RowBox[{"[", "1", "]"}], "]"}]}], ";", 
+                "\[IndentingNewLine]", 
+                RowBox[{"sigTop", "=", 
+                 RowBox[{"xSigRange", "[", 
+                  RowBox[{"[", "2", "]"}], "]"}]}], ";", 
+                "\[IndentingNewLine]", 
+                RowBox[{"sigTicks", "=", 
+                 RowBox[{"Table", "[", 
+                  RowBox[{
+                   RowBox[{"{", 
+                    RowBox[{"v", ",", 
+                    RowBox[{"NumberForm", "[", 
+                    RowBox[{
+                    RowBox[{"N", "[", "v", "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"3", ",", "1"}], "}"}]}], "]"}]}], "}"}], ",", 
+                   RowBox[{"{", 
+                    RowBox[{"v", ",", 
+                    RowBox[{"Ceiling", "[", 
+                    RowBox[{"sigBot", ",", "0.5"}], "]"}], ",", 
+                    RowBox[{"Floor", "[", 
+                    RowBox[{"sigTop", ",", "0.5"}], "]"}], ",", "0.5"}], 
+                    "}"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+                RowBox[{"shadingH", "=", 
+                 RowBox[{"{", 
+                  RowBox[{
+                   RowBox[{"Opacity", "[", "0.06", "]"}], ",", "Orange", ",", 
+                   
+                   RowBox[{"Rectangle", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"n", "-", 
+                    RowBox[{"(", 
+                    RowBox[{"hLen", "-", "1"}], ")"}]}], ",", "sigBot"}], 
+                    "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"n", ",", "sigTop"}], "}"}]}], "]"}]}], "}"}]}], ";",
+                 "\[IndentingNewLine]", 
+                RowBox[{"(*", 
+                 RowBox[{
+                  RowBox[{"x", " ", 
+                   RowBox[{"signal", ":", 
+                    RowBox[{"main", " ", "portion", " ", "t"}]}]}], "=", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"0", ".."}], "N"}], "-", "1"}]}], "*)"}], 
+                RowBox[{"xLine", "=", 
+                 RowBox[{"{", 
+                  RowBox[{"Thick", ",", "Blue", ",", 
+                   RowBox[{"Line", "[", 
+                    RowBox[{"Table", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"t", ",", 
+                    RowBox[{"xSigDisp", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"t", "+", "1"}], "]"}], "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"t", ",", "0", ",", 
+                    RowBox[{"nSamples", "-", "1"}]}], "}"}]}], "]"}], "]"}]}],
+                   "}"}]}], ";", "\[IndentingNewLine]", 
+                RowBox[{"(*", 
+                 RowBox[{
+                  RowBox[{"Extra", " ", "x", " ", "line", " ", "for", " ", 
+                   RowBox[{"step", "/", 
+                    RowBox[{"impulse", ":", 
+                    RowBox[{
+                    "show", " ", "zero", " ", "before", " ", "t"}]}]}]}], "=",
+                   "0"}], "*)"}], 
+                RowBox[{"xLineExtra", "=", 
+                 RowBox[{"Switch", "[", 
+                  RowBox[{"inputMode", ",", "\"\<step\>\"", ",", 
+                   RowBox[{"{", 
+                    RowBox[{"Thick", ",", "Blue", ",", 
+                    RowBox[{"Line", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"axMin", ",", "0"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"-", "1"}], ",", "0"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"-", "1"}], ",", "0"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", "1"}], "}"}]}], "}"}], "]"}]}], "}"}], ",", 
+                   RowBox[{"(*", 
+                    RowBox[{"zero", " ", "then", " ", "step", " ", "up"}], 
+                    "*)"}], "\"\<impulse\>\"", ",", 
+                   RowBox[{"{", 
+                    RowBox[{"Thick", ",", "Blue", ",", 
+                    RowBox[{"Line", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"axMin", ",", "0"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", "0"}], "}"}]}], "}"}], "]"}]}], "}"}], ",", 
+                   RowBox[{"(*", 
+                    RowBox[{"zero", " ", "before", " ", "impulse"}], 
+                    "*)"}], "\"\<noise\>\"", ",", 
+                   RowBox[{"{", "}"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+                
+                RowBox[{"hRevLine", "=", 
+                 RowBox[{"{", 
+                  RowBox[{"Thick", ",", 
+                   RowBox[{"Darker", "[", "Orange", "]"}], ",", 
+                   RowBox[{"Line", "[", 
+                    RowBox[{"Select", "[", 
+                    RowBox[{
+                    RowBox[{"Table", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"n", "-", "k"}], ",", 
+                    RowBox[{"hNorm", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"k", "+", "1"}], "]"}], "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"k", ",", "0", ",", 
+                    RowBox[{"hLen", "-", "1"}]}], "}"}]}], "]"}], ",", 
+                    RowBox[{
+                    RowBox[{"0", "<=", 
+                    RowBox[{"#", "[", 
+                    RowBox[{"[", "1", "]"}], "]"}], "<", "nSamples"}], 
+                    "&"}]}], "]"}], "]"}]}], "}"}]}], ";", 
+                "\[IndentingNewLine]", 
+                RowBox[{"hRevFaded", "=", 
+                 RowBox[{"{", 
+                  RowBox[{
+                   RowBox[{"Opacity", "[", "0.3", "]"}], ",", 
+                   RowBox[{"Darker", "[", "Orange", "]"}], ",", 
+                   RowBox[{"AbsoluteThickness", "[", "2.5", "]"}], ",", 
+                   RowBox[{"Line", "[", 
+                    RowBox[{"Select", "[", 
+                    RowBox[{
+                    RowBox[{"Table", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"n", "-", "k"}], ",", 
+                    RowBox[{"hNorm", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"k", "+", "1"}], "]"}], "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"k", ",", "0", ",", 
+                    RowBox[{"hLen", "-", "1"}]}], "}"}]}], "]"}], ",", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"#", "[", 
+                    RowBox[{"[", "1", "]"}], "]"}], "<", "0"}], "&"}]}], 
+                    "]"}], "]"}]}], "}"}]}], ";", "\[IndentingNewLine]", 
+                RowBox[{"separator", "=", 
+                 RowBox[{"{", 
+                  RowBox[{
+                   RowBox[{"GrayLevel", "[", "0.7", "]"}], ",", 
+                   RowBox[{"AbsoluteThickness", "[", "1", "]"}], ",", 
+                   RowBox[{"Line", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"axMin", ",", "sepY"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"axMax", ",", "sepY"}], "}"}]}], "}"}], "]"}]}], 
+                  "}"}]}], ";", "\[IndentingNewLine]", 
+                RowBox[{"prodZeroLine", "=", 
+                 RowBox[{"{", 
+                  RowBox[{
+                   RowBox[{"GrayLevel", "[", "0.75", "]"}], ",", 
+                   RowBox[{"AbsoluteThickness", "[", "0.5", "]"}], ",", 
+                   RowBox[{"Line", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"axMin", ",", "prodZero"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"axMax", ",", "prodZero"}], "}"}]}], "}"}], 
+                    "]"}]}], "}"}]}], ";", "\[IndentingNewLine]", 
+                RowBox[{"prodLabelLeft", "=", 
+                 RowBox[{"Text", "[", 
+                  RowBox[{
+                   RowBox[{"Style", "[", 
+                    
+                    RowBox[{"\"\<h[k]\[CenterDot]x[n-k]\>\"", ",", "10", ",", 
+                    "Gray"}], "]"}], ",", 
+                   RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"axMin", "+", "5"}], ",", 
+                    RowBox[{"prodZero", "+", "prodMargin", "-", "0.1"}]}], 
+                    "}"}], ",", 
+                   RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"-", "1"}], ",", "0"}], "}"}]}], "]"}]}], ";", 
+                "\[IndentingNewLine]", 
+                RowBox[{"prodBars", "=", 
+                 RowBox[{"Table", "[", 
+                  RowBox[{
+                   RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{
+                    RowBox[{"products", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "2"}], "]"}], "]"}], ">=", "0"}], ",", 
+                    RowBox[{"Directive", "[", 
+                    RowBox[{
+                    RowBox[{"Opacity", "[", "0.6", "]"}], ",", 
+                    RowBox[{"Darker", "[", "Green", "]"}]}], "]"}], ",", 
+                    RowBox[{"Directive", "[", 
+                    RowBox[{
+                    RowBox[{"Opacity", "[", "0.55", "]"}], ",", "Red"}], 
+                    "]"}]}], "]"}], ",", 
+                    RowBox[{"AbsoluteThickness", "[", "2", "]"}], ",", 
+                    RowBox[{"Line", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"products", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "1"}], "]"}], "]"}], ",", "prodZero"}], 
+                    "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"products", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "1"}], "]"}], "]"}], ",", 
+                    RowBox[{"prodZero", "+", 
+                    RowBox[{
+                    RowBox[{"products", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"i", ",", "2"}], "]"}], "]"}], "*", 
+                    "pScale"}]}]}], "}"}]}], "}"}], "]"}]}], "}"}], ",", 
+                   RowBox[{"{", 
+                    RowBox[{"i", ",", 
+                    RowBox[{"Length", "[", "products", "]"}]}], "}"}]}], 
+                  "]"}]}], ";", "\[IndentingNewLine]", 
+                RowBox[{"sumLine", "=", 
+                 RowBox[{"{", 
+                  RowBox[{"Black", ",", 
+                   RowBox[{"AbsoluteThickness", "[", "2", "]"}], ",", 
+                   RowBox[{"Line", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"overlapStart", ",", 
+                    RowBox[{"prodZero", "+", 
+                    RowBox[{"yVal", "*", "pScale"}]}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"overlapEnd", ",", 
+                    RowBox[{"prodZero", "+", 
+                    RowBox[{"yVal", "*", "pScale"}]}]}], "}"}]}], "}"}], 
+                    "]"}]}], "}"}]}], ";", "\[IndentingNewLine]", 
+                RowBox[{"sumLabel", "=", 
+                 RowBox[{"Text", "[", 
+                  RowBox[{
+                   RowBox[{"Style", "[", 
+                    RowBox[{
+                    RowBox[{"Row", "[", 
+                    RowBox[{"{", 
+                    RowBox[{"\"\<y[\>\"", ",", "n", ",", "\"\<] = \>\"", ",", 
+                    
+                    RowBox[{"NumberForm", "[", 
+                    RowBox[{"yVal", ",", 
+                    RowBox[{"{", 
+                    RowBox[{"4", ",", "3"}], "}"}]}], "]"}]}], "}"}], "]"}], ",",
+                     "Bold", ",", "11", ",", "Black"}], "]"}], ",", 
+                   RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"axMax", "-", "5"}], ",", 
+                    RowBox[{"prodZero", "+", 
+                    RowBox[{"yVal", "*", "pScale"}]}]}], "}"}], ",", 
+                   RowBox[{"{", 
+                    RowBox[{"1", ",", "0"}], "}"}]}], "]"}]}], ";", 
+                "\[IndentingNewLine]", 
+                RowBox[{"(*", 
+                 RowBox[{"Output", " ", "y", " ", "tight", " ", "limits"}], 
+                 "*)"}], 
+                RowBox[{"cMin", "=", 
+                 RowBox[{"ySigRange", "[", 
+                  RowBox[{"[", "1", "]"}], "]"}]}], ";", 
+                "\[IndentingNewLine]", 
+                RowBox[{"cMax", "=", 
+                 RowBox[{"ySigRange", "[", 
+                  RowBox[{"[", "2", "]"}], "]"}]}], ";", 
+                "\[IndentingNewLine]", 
+                RowBox[{"margin", "=", 
+                 RowBox[{"Max", "[", 
+                  RowBox[{"0.005", ",", 
+                   RowBox[{
+                    RowBox[{"(", 
+                    RowBox[{"cMax", "-", "cMin"}], ")"}], "*", "0.03"}]}], 
+                  "]"}]}], ";", "\[IndentingNewLine]", 
+                RowBox[{"cMin", "=", 
+                 RowBox[{"cMin", "-", "margin"}]}], ";", 
+                "\[IndentingNewLine]", 
+                RowBox[{"cMax", "=", 
+                 RowBox[{"cMax", "+", "margin"}]}], ";", 
+                "\[IndentingNewLine]", 
+                RowBox[{"yTicks", "=", 
+                 RowBox[{"If", "[", 
+                  RowBox[{
+                   RowBox[{"inputMode", "==", "\"\<step\>\""}], ",", 
+                   RowBox[{"Table", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"v", ",", 
+                    RowBox[{"NumberForm", "[", 
+                    RowBox[{
+                    RowBox[{"N", "[", "v", "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"3", ",", "1"}], "}"}]}], "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"v", ",", "0", ",", 
+                    RowBox[{"Ceiling", "[", 
+                    RowBox[{"cMax", ",", "0.5"}], "]"}], ",", "0.5"}], 
+                    "}"}]}], "]"}], ",", "Automatic"}], "]"}]}], ";", 
+                "\[IndentingNewLine]", 
+                RowBox[{"(*", 
+                 RowBox[{
+                  RowBox[{"y", " ", 
+                   RowBox[{"output", ":", 
+                    RowBox[{
+                    "extra", " ", "line", " ", "showing", " ", "y"}]}]}], "=", 
+                  RowBox[{
+                   RowBox[{"0", " ", "for", " ", "t"}], "<", "0"}]}], "*)"}], 
+                
+                RowBox[{"yLineExtra", "=", 
+                 RowBox[{"If", "[", 
+                  RowBox[{
+                   RowBox[{
+                    RowBox[{"inputMode", "==", "\"\<step\>\""}], "||", 
+                    RowBox[{"inputMode", "==", "\"\<impulse\>\""}]}], ",", 
+                   RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"GrayLevel", "[", "0.7", "]"}], ",", 
+                    RowBox[{"AbsoluteThickness", "[", "1.5", "]"}], ",", 
+                    RowBox[{"Line", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"axMin", ",", "0"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", "0"}], "}"}]}], "}"}], "]"}]}], "}"}], ",", 
+                   RowBox[{"{", "}"}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+                
+                RowBox[{"(*", 
+                 RowBox[{"Ghost", " ", "full", " ", "y"}], "*)"}], 
+                RowBox[{"yLineGhost", "=", 
+                 RowBox[{"{", 
+                  RowBox[{
+                   RowBox[{"GrayLevel", "[", "0.7", "]"}], ",", 
+                   RowBox[{"AbsoluteThickness", "[", "1.5", "]"}], ",", 
+                   RowBox[{"Line", "[", 
+                    RowBox[{"Table", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"t", ",", 
+                    RowBox[{"yDisp", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"t", "+", "1"}], "]"}], "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"t", ",", "0", ",", 
+                    RowBox[{"nSamples", "-", "1"}]}], "}"}]}], "]"}], "]"}]}],
+                   "}"}]}], ";", "\[IndentingNewLine]", 
+                RowBox[{"(*", 
+                 RowBox[{"Revealed", " ", "y"}], "*)"}], 
+                RowBox[{"yLineRevealed", "=", 
+                 RowBox[{"{", 
+                  RowBox[{"Black", ",", 
+                   RowBox[{"AbsoluteThickness", "[", "2.5", "]"}], ",", 
+                   RowBox[{"Line", "[", 
+                    RowBox[{"Table", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"t", ",", 
+                    RowBox[{"yDisp", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"t", "+", "1"}], "]"}], "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"t", ",", "0", ",", "n"}], "}"}]}], "]"}], 
+                    "]"}]}], "}"}]}], ";", "\[IndentingNewLine]", 
+                RowBox[{"Column", "[", 
+                 RowBox[{
+                  RowBox[{"{", 
+                   RowBox[{
+                    RowBox[{"Style", "[", 
+                    RowBox[{
+                    RowBox[{"\"\<Computing y[\>\"", "<>", 
+                    RowBox[{"ToString", "[", "n", "]"}], 
+                    "<>", "\"\<] = \[Sum] h[k] \[CenterDot] x[\>\"", "<>", 
+                    RowBox[{"ToString", "[", "n", "]"}], 
+                    "<>", "\"\<-k]   for k = 0..\>\"", "<>", 
+                    RowBox[{"ToString", "[", 
+                    RowBox[{"hLen", "-", "1"}], "]"}], "<>", "\"\<    y[\>\"",
+                     "<>", 
+                    RowBox[{"ToString", "[", "n", "]"}], "<>", "\"\<] = \>\"",
+                     "<>", 
+                    RowBox[{"ToString", "[", 
+                    RowBox[{"NumberForm", "[", 
+                    RowBox[{"yVal", ",", 
+                    RowBox[{"{", 
+                    RowBox[{"4", ",", "3"}], "}"}]}], "]"}], "]"}]}], ",", 
+                    "12", ",", "Gray"}], "]"}], ",", 
+                    RowBox[{"Spacer", "[", "5", "]"}], ",", 
+                    RowBox[{"(*", 
+                    RowBox[{"Panel", " ", "1"}], "*)"}], 
+                    RowBox[{"Graphics", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"shadingH", ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"GrayLevel", "[", "0.85", "]"}], ",", 
+                    RowBox[{"AbsoluteThickness", "[", "0.5", "]"}], ",", 
+                    RowBox[{"Line", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"axMin", ",", "0"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"axMax", ",", "0"}], "}"}]}], "}"}], "]"}]}], 
+                    "}"}], ",", "xLineExtra", ",", "xLine", ",", "hRevLine", ",",
+                     "hRevFaded", ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Darker", "[", "Green", "]"}], ",", "Dashed", ",", 
+                    RowBox[{"AbsoluteThickness", "[", "1", "]"}], ",", 
+                    RowBox[{"Line", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"n", ",", "sigBot"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"n", ",", "sigTop"}], "}"}]}], "}"}], "]"}]}], 
+                    "}"}], ",", 
+                    RowBox[{"Text", "[", 
+                    RowBox[{
+                    RowBox[{"Style", "[", 
+                    RowBox[{
+                    RowBox[{"\"\<n=\>\"", "<>", 
+                    RowBox[{"ToString", "[", "n", "]"}]}], ",", "9", ",", 
+                    RowBox[{"Darker", "[", "Green", "]"}]}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"n", ",", 
+                    RowBox[{"sigTop", "+", "0.05"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", 
+                    RowBox[{"-", "1"}]}], "}"}]}], "]"}], ",", "separator", ",",
+                     "prodZeroLine", ",", "prodLabelLeft", ",", "prodBars", ",",
+                     "sumLine", ",", "sumLabel"}], "}"}], ",", 
+                    RowBox[{"PlotRange", "->", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"axMin", ",", "axMax"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"plotBottom", "-", "0.3"}], ",", 
+                    RowBox[{"sigTop", "+", "0.15"}]}], "}"}]}], "}"}]}], ",", 
+                    
+                    RowBox[{"Frame", "->", "True"}], ",", 
+                    RowBox[{"FrameLabel", "->", 
+                    RowBox[{"{", 
+                    RowBox[{"\"\<Sample index\>\"", ",", "None"}], "}"}]}], ",", 
+                    RowBox[{"PlotLabel", "->", 
+                    RowBox[{"Style", "[", 
+                    RowBox[{
+                    RowBox[{"Row", "[", 
+                    RowBox[{"{", 
+                    
+                    RowBox[{"\"\<Convolution: y[n] = \[Sum] h[k] \[CenterDot] \
+x[n-k]    (n = \>\"", ",", "n", ",", "\"\<)\>\""}], "}"}], "]"}], ",", "Bold",
+                     ",", "13"}], "]"}]}], ",", 
+                    RowBox[{"ImageSize", "->", 
+                    RowBox[{"{", 
+                    RowBox[{"900", ",", "Automatic"}], "}"}]}], ",", 
+                    RowBox[{"ImagePadding", "->", "commonPadding"}], ",", 
+                    RowBox[{"AspectRatio", "->", "0.45"}], ",", 
+                    RowBox[{"FrameTicks", "->", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Range", "[", 
+                    RowBox[{"axMin", ",", "axMax", ",", "100"}], "]"}], ",", 
+                    RowBox[{"Join", "[", 
+                    RowBox[{"sigTicks", ",", 
+                    RowBox[{"Table", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"prodZero", "+", 
+                    RowBox[{"v", "*", "pScale"}]}], ",", 
+                    RowBox[{"NumberForm", "[", 
+                    RowBox[{
+                    RowBox[{"N", "[", "v", "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"3", ",", "2"}], "}"}]}], "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"v", ",", 
+                    RowBox[{"-", 
+                    RowBox[{"Round", "[", 
+                    RowBox[{"maxProd", ",", "pTickStep"}], "]"}]}], ",", 
+                    RowBox[{"Round", "[", 
+                    RowBox[{"maxProd", ",", "pTickStep"}], "]"}], ",", 
+                    "pTickStep"}], "}"}]}], "]"}]}], "]"}]}], "}"}]}], ",", 
+                    RowBox[{"BaseStyle", "->", 
+                    RowBox[{"{", 
+                    RowBox[{"FontSize", "->", "11"}], "}"}]}]}], "]"}], ",", 
+                    RowBox[{"(*", "Legend", "*)"}], 
+                    RowBox[{"Row", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Graphics", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"Thick", ",", "Blue", ",", 
+                    RowBox[{"Line", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", "0"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"1", ",", "0"}], "}"}]}], "}"}], "]"}]}], "}"}], ",", 
+                    RowBox[{"ImageSize", "->", 
+                    RowBox[{"{", 
+                    RowBox[{"20", ",", "10"}], "}"}]}]}], "]"}], 
+                    ",", "\"\< x[t] (input)   \>\"", ",", 
+                    RowBox[{"Graphics", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"Thick", ",", 
+                    RowBox[{"Darker", "[", "Orange", "]"}], ",", 
+                    RowBox[{"Line", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", "0"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"1", ",", "0"}], "}"}]}], "}"}], "]"}]}], "}"}], ",", 
+                    RowBox[{"ImageSize", "->", 
+                    RowBox[{"{", 
+                    RowBox[{"20", ",", "10"}], "}"}]}]}], "]"}], 
+                    ",", "\"\< h[-k] (reversed, shifted)   \>\"", ",", 
+                    RowBox[{"Graphics", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Darker", "[", "Green", "]"}], ",", 
+                    RowBox[{"Rectangle", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", "0"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"1", ",", "1"}], "}"}]}], "]"}]}], "}"}], ",", 
+                    RowBox[{"ImageSize", "->", 
+                    RowBox[{"{", 
+                    RowBox[{"10", ",", "10"}], "}"}]}]}], "]"}], 
+                    ",", "\"\< prod>0  \>\"", ",", 
+                    RowBox[{"Graphics", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"Red", ",", 
+                    RowBox[{"Rectangle", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", "0"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"1", ",", "1"}], "}"}]}], "]"}]}], "}"}], ",", 
+                    RowBox[{"ImageSize", "->", 
+                    RowBox[{"{", 
+                    RowBox[{"10", ",", "10"}], "}"}]}]}], "]"}], 
+                    ",", "\"\< prod<0  \>\"", ",", 
+                    RowBox[{"Graphics", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"Black", ",", "Thick", ",", 
+                    RowBox[{"Line", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"0", ",", "0"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"1", ",", "0"}], "}"}]}], "}"}], "]"}]}], "}"}], ",", 
+                    RowBox[{"ImageSize", "->", 
+                    RowBox[{"{", 
+                    RowBox[{"20", ",", "10"}], "}"}]}]}], "]"}], 
+                    ",", "\"\< sum = y[n]\>\""}], "}"}], ",", 
+                    RowBox[{"Spacer", "[", "3", "]"}]}], "]"}], ",", 
+                    RowBox[{"Spacer", "[", "8", "]"}], ",", 
+                    RowBox[{"(*", 
+                    RowBox[{"Panel", " ", "2"}], "*)"}], 
+                    RowBox[{"Graphics", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"LightGray", ",", 
+                    RowBox[{"Line", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"axMin", ",", "0"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"axMax", ",", "0"}], "}"}]}], "}"}], "]"}]}], 
+                    "}"}], ",", "yLineExtra", ",", "yLineGhost", ",", 
+                    "yLineRevealed", ",", 
+                    RowBox[{"{", 
+                    RowBox[{"Black", ",", 
+                    RowBox[{"PointSize", "[", "0.004", "]"}], ",", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"n", "<", "200"}], ",", 
+                    RowBox[{"Point", "[", 
+                    RowBox[{"Table", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"t", ",", 
+                    RowBox[{"yDisp", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"t", "+", "1"}], "]"}], "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"t", ",", "0", ",", "n"}], "}"}]}], "]"}], "]"}], 
+                    ",", 
+                    RowBox[{"{", "}"}]}], "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"Red", ",", 
+                    RowBox[{"PointSize", "[", "Large", "]"}], ",", 
+                    RowBox[{"Point", "[", 
+                    RowBox[{"{", 
+                    RowBox[{"n", ",", 
+                    RowBox[{"yDisp", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"n", "+", "1"}], "]"}], "]"}]}], "}"}], "]"}]}], 
+                    "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"Red", ",", "Dashed", ",", 
+                    RowBox[{"AbsoluteThickness", "[", "1.5", "]"}], ",", 
+                    RowBox[{"Line", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"n", ",", 
+                    RowBox[{"yDisp", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"n", "+", "1"}], "]"}], "]"}]}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"n", ",", "cMin"}], "}"}]}], "}"}], "]"}]}], 
+                    "}"}], ",", 
+                    RowBox[{"If", "[", 
+                    RowBox[{
+                    RowBox[{"inputMode", "==", "\"\<step\>\""}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"Dashed", ",", 
+                    RowBox[{"GrayLevel", "[", "0.5", "]"}], ",", 
+                    RowBox[{"AbsoluteThickness", "[", "1", "]"}], ",", 
+                    RowBox[{"Line", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"axMin", ",", "Kdc"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"axMax", ",", "Kdc"}], "}"}]}], "}"}], "]"}], ",", 
+                    RowBox[{"Text", "[", 
+                    RowBox[{
+                    RowBox[{"Style", "[", 
+                    RowBox[{
+                    RowBox[{"Row", "[", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Subscript", "[", 
+                    RowBox[{"\"\<K\>\"", ",", "\"\<dc\>\""}], "]"}], 
+                    ",", "\"\< = \>\"", ",", "Kdc"}], "}"}], "]"}], ",", "10",
+                     ",", "Gray"}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"axMax", "-", "5"}], ",", "Kdc"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"1", ",", 
+                    RowBox[{"-", "1.5"}]}], "}"}]}], "]"}]}], "}"}], ",", 
+                    RowBox[{"{", "}"}]}], "]"}]}], "}"}], ",", 
+                    RowBox[{"PlotRange", "->", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{"axMin", ",", "axMax"}], "}"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"cMin", ",", "cMax"}], "}"}]}], "}"}]}], ",", 
+                    RowBox[{"Frame", "->", "True"}], ",", 
+                    RowBox[{"FrameLabel", "->", 
+                    RowBox[{"{", 
+                    RowBox[{"\"\<Sample index n\>\"", ",", "\"\<y[n]\>\""}], 
+                    "}"}]}], ",", 
+                    RowBox[{"PlotLabel", "->", 
+                    RowBox[{"Style", "[", 
+                    
+                    RowBox[{"\"\<Output Signal y[n] (revealed \
+progressively)\>\"", ",", "Bold", ",", "13"}], "]"}]}], ",", 
+                    RowBox[{"ImageSize", "->", 
+                    RowBox[{"{", 
+                    RowBox[{"900", ",", "Automatic"}], "}"}]}], ",", 
+                    RowBox[{"ImagePadding", "->", "commonPadding"}], ",", 
+                    RowBox[{"AspectRatio", "->", "0.22"}], ",", 
+                    RowBox[{"FrameTicks", "->", 
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Range", "[", 
+                    RowBox[{"axMin", ",", "axMax", ",", "100"}], "]"}], ",", 
+                    "yTicks"}], "}"}]}], ",", 
+                    RowBox[{"BaseStyle", "->", 
+                    RowBox[{"{", 
+                    RowBox[{"FontSize", "->", "11"}], "}"}]}]}], "]"}], ",", 
+                    RowBox[{"Spacer", "[", "10", "]"}], ",", 
+                    RowBox[{"Style", "[", 
+                    RowBox[{
+                    RowBox[{"Column", "[", 
+                    RowBox[{
+                    RowBox[{"{", 
+                    RowBox[{
+                    RowBox[{"Row", "[", 
+                    RowBox[{"{", 
+                    RowBox[{"\"\<Sample rate: \>\"", ",", 
+                    RowBox[{"fs", "/", "1000"}], 
+                    ",", "\"\< kHz    \[CapitalDelta]t = \>\"", ",", 
+                    RowBox[{"NumberForm", "[", 
+                    RowBox[{
+                    RowBox[{"N", "[", 
+                    RowBox[{"dt", "*", "1000"}], "]"}], ",", 
+                    RowBox[{"{", 
+                    RowBox[{"4", ",", "3"}], "}"}]}], "]"}], 
+                    ",", "\"\< ms    Signal length: \>\"", ",", "nSamples", 
+                    ",", "\"\< samples    Impulse response length: \>\"", ",",
+                     "hLen", ",", "\"\< samples\>\""}], "}"}], "]"}], ",", 
+                    "xLabel", ",", 
+                    RowBox[{"Row", "[", 
+                    RowBox[{"{", 
+                    RowBox[{"\"\<h[t]: 2nd-order system (\>\"", ",", 
+                    RowBox[{"Subscript", "[", 
+                    RowBox[{"\"\<K\>\"", ",", "\"\<dc\>\""}], "]"}], 
+                    ",", "\"\< = \>\"", ",", "Kdc", ",", "\"\<, \>\"", ",", 
+                    RowBox[{"Subscript", "[", 
+                    RowBox[{"\"\<f\>\"", ",", "\"\<n\>\""}], "]"}], 
+                    ",", "\"\< = \>\"", ",", 
+                    RowBox[{"fn", "/", "1000"}], 
+                    ",", "\"\< kHz, \[Zeta] = \>\"", ",", "zeta", 
+                    ",", "\"\<)\>\""}], "}"}], "]"}], ",", 
+                    
+                    RowBox[{"\"\<y[n] = \[Sum] h[k] \[CenterDot] x[n-k],  k = \
+0, 1, ..., \>\"", "<>", 
+                    RowBox[{"ToString", "[", 
+                    RowBox[{"hLen", "-", "1"}], "]"}]}]}], "}"}], ",", 
+                    RowBox[{"Spacings", "->", "0.3"}]}], "]"}], ",", "11", ",",
+                     "Gray"}], "]"}]}], "}"}], ",", 
+                  RowBox[{"Alignment", "->", "Center"}]}], "]"}]}]}], 
+              "]"}]}]}], "]"}]}]}], "}"}], ",", 
+       RowBox[{"Alignment", "->", "Center"}]}], "]"}]}], "]"}]}]}]], "Input",
+ CellOpen->False,
+ CellChangeTimes->{{3.984923170421228*^9, 3.984923170423493*^9}, {
+  3.984923391829035*^9, 3.9849233961590014`*^9}, {3.984923637557198*^9, 
+  3.984923637639408*^9}},
+ CellLabel->"In[75]:=",ExpressionUUID->"33b8d4f1-9846-4ba1-9cc3-7a0b2275ee87"],
+
+Cell[BoxData[
+ DynamicModuleBox[{$CellContext`currentN$$ = 580, $CellContext`inputMode$$ = 
+  "noise"}, 
+  TagBox[GridBox[{
+     {
+      TemplateBox[{
+        StyleBox["\"Output sample n : \"", Bold, 14, StripOnInput -> False], 
+        DynamicModuleBox[{$CellContext`pos$$ = {232.20000000000002`, 0}}, 
+         LocatorPaneBox[
+          Dynamic[$CellContext`pos$$, ($CellContext`pos$$ = {
+              Clip[
+               Part[#, 1], {0, 400}], 0}; $CellContext`currentN$$ = Round[
+              Rescale[
+               Part[$CellContext`pos$$, 1], {0, 400}, {0, 999}], 1])& ], 
+          GraphicsBox[{{
+             GrayLevel[0.78], 
+             AbsoluteThickness[4], 
+             LineBox[{{0, 0}, {400, 0}}]}, {
+             GrayLevel[0.6], 
+             AbsoluteThickness[1], 
+             LineBox[{{0, -5}, {0, 5}}]}}, ImagePadding -> {{10, 10}, {0, 0}},
+            ImageSize -> {420, 24}, PlotRange -> {{-10, 410}, {-10, 10}}], 
+          Appearance -> GraphicsBox[{
+             GrayLevel[0.4], 
+             DiskBox[{0, 0}, 6]}, ImageSize -> 14], LocatorAutoCreate -> 
+          False], DynamicModuleValues :> {}], 
+        TemplateBox[{12}, "Spacer1"], 
+        DynamicBox[
+         ToBoxes[
+          Style[$CellContext`currentN$$, Bold, 18, Red], StandardForm], 
+         ImageSizeCache -> {
+          32.4, {0.21599999999999997`, 11.645999999999999`}}], 
+        TemplateBox[{30}, "Spacer1"], 
+        StyleBox["\"Input x[t]: \"", Bold, 12, StripOnInput -> False], 
+        PopupMenuBox[
+         Dynamic[$CellContext`inputMode$$], {
+         "noise" -> "\"White noise\"", "step" -> "\"Unit step\"", "impulse" -> 
+          "\"Unit impulse (\[Delta])\""}]},
+       "RowDefault"]},
+     {
+      TemplateBox[{5},
+       "Spacer1"]},
+     {
+      DynamicBox[ToBoxes[
+        Module[{$CellContext`n$ = $CellContext`currentN$$, \
+$CellContext`xSigDisp$, $CellContext`yDisp$, $CellContext`maxProd$, \
+$CellContext`pScale$, $CellContext`pTickStep$, $CellContext`xLabel$, \
+$CellContext`xSigRange$, $CellContext`ySigRange$}, {$CellContext`xSigDisp$, \
+$CellContext`yDisp$, $CellContext`maxProd$, $CellContext`xLabel$, \
+$CellContext`xSigRange$, $CellContext`ySigRange$} = 
+          Switch[$CellContext`inputMode$$, 
+            "noise", {$CellContext`xNoise, $CellContext`yNoise, \
+$CellContext`maxProdNoise, "x[t]: Gaussian white noise", {-1.3, 1.3}, {
+              Min[$CellContext`yNoise], 
+              Max[$CellContext`yNoise]}}, 
+            "step", {$CellContext`xStep, $CellContext`yStep, \
+$CellContext`maxProdStep, 
+             "x[t]: Unit step (0 for t<0, 1 for t\[GreaterEqual]0)", {-0.3, 
+             1.5}, {Min[$CellContext`yStep] - 0.1, Max[$CellContext`yStep] + 
+              0.1}}, "impulse", {$CellContext`xImpulse/Max[
+              Abs[$CellContext`xImpulse]], $CellContext`yImpulse/Max[
+              Abs[$CellContext`yImpulse]], $CellContext`maxProdImpulse, 
+             "x[t]: Unit impulse (\[Delta] = 1/\[CapitalDelta]t at t=0)", \
+{-1.3, 1.3}, {
+              Min[$CellContext`yImpulse/Max[
+                Abs[$CellContext`yImpulse]]], 
+              Max[$CellContext`yImpulse/Max[
+                Abs[$CellContext`yImpulse]]]}}]; $CellContext`pScale$ = 
+          1.3/Max[$CellContext`maxProd$, 0.001]; $CellContext`pTickStep$ = 
+          Round[$CellContext`maxProd$/3, 0.1]; 
+         If[$CellContext`pTickStep$ == 0, $CellContext`pTickStep$ = 
+           Max[0.01, $CellContext`maxProd$/3]]; 
+         Module[{$CellContext`products$, $CellContext`yVal$, \
+$CellContext`xPadDisp$, $CellContext`xLine$, $CellContext`xLineExtra$, \
+$CellContext`hRevLine$, $CellContext`hRevFaded$, $CellContext`prodBars$, \
+$CellContext`sumLine$, $CellContext`sumLabel$, $CellContext`separator$, \
+$CellContext`prodZeroLine$, $CellContext`prodLabelLeft$, \
+$CellContext`overlapStart$, $CellContext`overlapEnd$, $CellContext`shadingH$, \
+$CellContext`cMin$, $CellContext`cMax$, $CellContext`margin$, \
+$CellContext`sigTop$, $CellContext`sigBot$, $CellContext`sigTicks$, \
+$CellContext`yTicks$, $CellContext`yLineGhost$, $CellContext`yLineRevealed$, \
+$CellContext`yLineExtra$}, $CellContext`xPadDisp$ = Join[
+              ConstantArray[
+              0., $CellContext`hLen - 
+               1], $CellContext`xSigDisp$]; $CellContext`products$ = 
+            Table[{$CellContext`n$ - $CellContext`k, 
+               Part[$CellContext`hNorm, $CellContext`k + 1] 
+               Part[$CellContext`xPadDisp$, $CellContext`n$ - $CellContext`k + \
+$CellContext`hLen]}, {$CellContext`k, 0, $CellContext`hLen - 
+               1}]; $CellContext`yVal$ = 
+            Part[$CellContext`yDisp$, $CellContext`n$ + 
+              1]; $CellContext`overlapStart$ = 
+            Max[0, $CellContext`n$ - ($CellContext`hLen - 
+              1)]; $CellContext`overlapEnd$ = $CellContext`n$; \
+$CellContext`sigBot$ = Part[$CellContext`xSigRange$, 1]; $CellContext`sigTop$ = 
+            Part[$CellContext`xSigRange$, 2]; $CellContext`sigTicks$ = 
+            Table[{$CellContext`v, 
+               NumberForm[
+                N[$CellContext`v], {3, 1}]}, {$CellContext`v, 
+               Ceiling[$CellContext`sigBot$, 0.5], 
+               Floor[$CellContext`sigTop$, 0.5], 
+               0.5}]; $CellContext`shadingH$ = {
+              Opacity[0.06], Orange, 
+              
+              Rectangle[{$CellContext`n$ - ($CellContext`hLen - 
+                1), $CellContext`sigBot$}, {$CellContext`n$, \
+$CellContext`sigTop$}]}; $CellContext`xLine$ = {Thick, Blue, 
+              Line[
+               Table[{$CellContext`t, 
+                 
+                 Part[$CellContext`xSigDisp$, $CellContext`t + 
+                  1]}, {$CellContext`t, 0, $CellContext`nSamples - 
+                 1}]]}; $CellContext`xLineExtra$ = 
+            Switch[$CellContext`inputMode$$, "step", {Thick, Blue, 
+               Line[{{$CellContext`axMin, 0}, {-1, 0}, {-1, 0}, {0, 1}}]}, 
+              "impulse", {Thick, Blue, 
+               Line[{{$CellContext`axMin, 0}, {0, 0}}]}, 
+              "noise", {}]; $CellContext`hRevLine$ = {Thick, 
+              Darker[Orange], 
+              Line[
+               Select[
+                Table[{$CellContext`n$ - $CellContext`k, 
+                  
+                  Part[$CellContext`hNorm, $CellContext`k + 
+                   1]}, {$CellContext`k, 0, $CellContext`hLen - 1}], 
+                Inequality[0, LessEqual, 
+                 Part[#, 1], 
+                 Less, $CellContext`nSamples]& ]]}; $CellContext`hRevFaded$ = {
+              Opacity[0.3], 
+              Darker[Orange], 
+              AbsoluteThickness[2.5], 
+              Line[
+               Select[
+                Table[{$CellContext`n$ - $CellContext`k, 
+                  
+                  Part[$CellContext`hNorm, $CellContext`k + 
+                   1]}, {$CellContext`k, 0, $CellContext`hLen - 1}], 
+                Part[#, 1] < 0& ]]}; $CellContext`separator$ = {
+              GrayLevel[0.7], 
+              AbsoluteThickness[1], 
+              
+              Line[{{$CellContext`axMin, $CellContext`sepY}, \
+{$CellContext`axMax, $CellContext`sepY}}]}; $CellContext`prodZeroLine$ = {
+              GrayLevel[0.75], 
+              AbsoluteThickness[0.5], 
+              
+              Line[{{$CellContext`axMin, $CellContext`prodZero}, \
+{$CellContext`axMax, $CellContext`prodZero}}]}; $CellContext`prodLabelLeft$ = 
+            Text[
+              Style[
+              "h[k]\[CenterDot]x[n-k]", 10, Gray], {$CellContext`axMin + 
+               5, $CellContext`prodZero + $CellContext`prodMargin - 0.1}, {-1,
+               0}]; $CellContext`prodBars$ = Table[{
+               If[Part[$CellContext`products$, $CellContext`i, 2] >= 0, 
+                Directive[
+                 Opacity[0.6], 
+                 Darker[Green]], 
+                Directive[
+                 Opacity[0.55], Red]], 
+               AbsoluteThickness[2], 
+               Line[{{
+                  
+                  Part[$CellContext`products$, $CellContext`i, 
+                   1], $CellContext`prodZero}, {
+                  
+                  Part[$CellContext`products$, $CellContext`i, 
+                   1], $CellContext`prodZero + 
+                  Part[$CellContext`products$, $CellContext`i, 
+                    2] $CellContext`pScale$}}]}, {$CellContext`i, 
+               Length[$CellContext`products$]}]; $CellContext`sumLine$ = {
+             Black, 
+              AbsoluteThickness[2], 
+              
+              Line[{{$CellContext`overlapStart$, $CellContext`prodZero + \
+$CellContext`yVal$ $CellContext`pScale$}, {$CellContext`overlapEnd$, \
+$CellContext`prodZero + $CellContext`yVal$ $CellContext`pScale$}}]}; \
+$CellContext`sumLabel$ = Text[
+              Style[
+               Row[{"y[", $CellContext`n$, "] = ", 
+                 NumberForm[$CellContext`yVal$, {4, 3}]}], Bold, 11, 
+               Black], {$CellContext`axMax - 
+               5, $CellContext`prodZero + $CellContext`yVal$ \
+$CellContext`pScale$}, {1, 0}]; $CellContext`cMin$ = 
+            Part[$CellContext`ySigRange$, 1]; $CellContext`cMax$ = 
+            Part[$CellContext`ySigRange$, 2]; $CellContext`margin$ = 
+            Max[0.005, ($CellContext`cMax$ - $CellContext`cMin$) 
+              0.03]; $CellContext`cMin$ = $CellContext`cMin$ - \
+$CellContext`margin$; $CellContext`cMax$ = $CellContext`cMax$ + \
+$CellContext`margin$; $CellContext`yTicks$ = 
+            If[$CellContext`inputMode$$ == "step", 
+              Table[{$CellContext`v, 
+                NumberForm[
+                 N[$CellContext`v], {3, 1}]}, {$CellContext`v, 0, 
+                Ceiling[$CellContext`cMax$, 0.5], 0.5}], 
+              Automatic]; $CellContext`yLineExtra$ = If[
+              
+              Or[$CellContext`inputMode$$ == "step", $CellContext`inputMode$$ == 
+               "impulse"], {
+               GrayLevel[0.7], 
+               AbsoluteThickness[1.5], 
+               
+               Line[{{$CellContext`axMin, 0}, {0, 
+                 0}}]}, {}]; $CellContext`yLineGhost$ = {
+              GrayLevel[0.7], 
+              AbsoluteThickness[1.5], 
+              Line[
+               Table[{$CellContext`t, 
+                 
+                 Part[$CellContext`yDisp$, $CellContext`t + 
+                  1]}, {$CellContext`t, 0, $CellContext`nSamples - 
+                 1}]]}; $CellContext`yLineRevealed$ = {Black, 
+              AbsoluteThickness[2.5], 
+              Line[
+               Table[{$CellContext`t, 
+                 
+                 Part[$CellContext`yDisp$, $CellContext`t + 
+                  1]}, {$CellContext`t, 0, $CellContext`n$}]]}; Column[{
+              Style[
+              "Computing y[" <> ToString[$CellContext`n$] <> 
+               "] = \[Sum] h[k] \[CenterDot] x[" <> ToString[$CellContext`n$] <> 
+               "-k]   for k = 0.." <> ToString[$CellContext`hLen - 1] <> 
+               "    y[" <> ToString[$CellContext`n$] <> "] = " <> ToString[
+                 NumberForm[$CellContext`yVal$, {4, 3}]], 12, Gray], 
+              Spacer[5], 
+              Graphics[{$CellContext`shadingH$, {
+                 GrayLevel[0.85], 
+                 AbsoluteThickness[0.5], 
+                 
+                 Line[{{$CellContext`axMin, 0}, {$CellContext`axMax, 
+                    0}}]}, $CellContext`xLineExtra$, $CellContext`xLine$, \
+$CellContext`hRevLine$, $CellContext`hRevFaded$, {
+                 Darker[Green], Dashed, 
+                 AbsoluteThickness[1], 
+                 
+                 Line[{{$CellContext`n$, $CellContext`sigBot$}, \
+{$CellContext`n$, $CellContext`sigTop$}}]}, 
+                Text[
+                 Style["n=" <> ToString[$CellContext`n$], 9, 
+                  Darker[Green]], {$CellContext`n$, $CellContext`sigTop$ + 
+                  0.05}, {
+                 0, -1}], $CellContext`separator$, \
+$CellContext`prodZeroLine$, $CellContext`prodLabelLeft$, \
+$CellContext`prodBars$, $CellContext`sumLine$, $CellContext`sumLabel$}, 
+               PlotRange -> {{$CellContext`axMin, $CellContext`axMax}, \
+{$CellContext`plotBottom - 0.3, $CellContext`sigTop$ + 0.15}}, Frame -> True, 
+               FrameLabel -> {"Sample index", None}, PlotLabel -> Style[
+                 
+                 Row[{"Convolution: y[n] = \[Sum] h[k] \[CenterDot] x[n-k]    \
+(n = ", $CellContext`n$, ")"}], Bold, 13], ImageSize -> {900, Automatic}, 
+               ImagePadding -> $CellContext`commonPadding, AspectRatio -> 
+               0.45, FrameTicks -> {
+                 Range[$CellContext`axMin, $CellContext`axMax, 100], 
+                 Join[$CellContext`sigTicks$, 
+                  
+                  Table[{$CellContext`prodZero + $CellContext`v \
+$CellContext`pScale$, 
+                    NumberForm[
+                    N[$CellContext`v], {3, 2}]}, {$CellContext`v, -
+                    Round[$CellContext`maxProd$, $CellContext`pTickStep$], 
+                    
+                    Round[$CellContext`maxProd$, $CellContext`pTickStep$], \
+$CellContext`pTickStep$}]]}, BaseStyle -> {FontSize -> 11}], 
+              Row[{
+                Graphics[{Thick, Blue, 
+                  Line[{{0, 0}, {1, 0}}]}, ImageSize -> {20, 10}], 
+                " x[t] (input)   ", 
+                Graphics[{Thick, 
+                  Darker[Orange], 
+                  Line[{{0, 0}, {1, 0}}]}, ImageSize -> {20, 10}], 
+                " h[-k] (reversed, shifted)   ", 
+                Graphics[{
+                  Darker[Green], 
+                  Rectangle[{0, 0}, {1, 1}]}, ImageSize -> {10, 10}], 
+                " prod>0  ", 
+                Graphics[{Red, 
+                  Rectangle[{0, 0}, {1, 1}]}, ImageSize -> {10, 10}], 
+                " prod<0  ", 
+                Graphics[{Black, Thick, 
+                  Line[{{0, 0}, {1, 0}}]}, ImageSize -> {20, 10}], 
+                " sum = y[n]"}, 
+               Spacer[3]], 
+              Spacer[8], 
+              Graphics[{{LightGray, 
+                 
+                 Line[{{$CellContext`axMin, 0}, {$CellContext`axMax, 
+                    0}}]}, $CellContext`yLineExtra$, \
+$CellContext`yLineGhost$, $CellContext`yLineRevealed$, {Black, 
+                 PointSize[0.004], 
+                 If[$CellContext`n$ < 200, 
+                  Point[
+                   Table[{$CellContext`t, 
+                    
+                    Part[$CellContext`yDisp$, $CellContext`t + 
+                    1]}, {$CellContext`t, 0, $CellContext`n$}]], {}]}, {Red, 
+                 PointSize[Large], 
+                 Point[{$CellContext`n$, 
+                   Part[$CellContext`yDisp$, $CellContext`n$ + 1]}]}, {
+                Red, Dashed, 
+                 AbsoluteThickness[1.5], 
+                 Line[{{$CellContext`n$, 
+                    
+                    Part[$CellContext`yDisp$, $CellContext`n$ + 
+                    1]}, {$CellContext`n$, $CellContext`cMin$}}]}, 
+                If[$CellContext`inputMode$$ == "step", {Dashed, 
+                  GrayLevel[0.5], 
+                  AbsoluteThickness[1], 
+                  
+                  Line[{{$CellContext`axMin, $CellContext`Kdc}, \
+{$CellContext`axMax, $CellContext`Kdc}}], 
+                  Text[
+                   Style[
+                    Row[{
+                    Subscript["K", "dc"], " = ", $CellContext`Kdc}], 10, 
+                    Gray], {$CellContext`axMax - 5, $CellContext`Kdc}, {
+                   1, -1.5}]}, {}]}, 
+               PlotRange -> {{$CellContext`axMin, $CellContext`axMax}, \
+{$CellContext`cMin$, $CellContext`cMax$}}, Frame -> True, 
+               FrameLabel -> {"Sample index n", "y[n]"}, PlotLabel -> 
+               Style["Output Signal y[n] (revealed progressively)", Bold, 13],
+                ImageSize -> {900, Automatic}, 
+               ImagePadding -> $CellContext`commonPadding, AspectRatio -> 
+               0.22, FrameTicks -> {
+                 
+                 Range[$CellContext`axMin, $CellContext`axMax, 
+                  100], $CellContext`yTicks$}, BaseStyle -> {FontSize -> 11}], 
+              Spacer[10], 
+              Style[
+               Column[{
+                 
+                 Row[{"Sample rate: ", $CellContext`fs/1000, 
+                   " kHz    \[CapitalDelta]t = ", 
+                   NumberForm[
+                    N[$CellContext`dt 1000], {4, 3}], 
+                   " ms    Signal length: ", $CellContext`nSamples, 
+                   " samples    Impulse response length: ", $CellContext`hLen,
+                    " samples"}], $CellContext`xLabel$, 
+                 Row[{"h[t]: 2nd-order system (", 
+                   Subscript["K", "dc"], " = ", $CellContext`Kdc, ", ", 
+                   Subscript["f", "n"], " = ", $CellContext`fn/1000, 
+                   " kHz, \[Zeta] = ", $CellContext`zeta, ")"}], 
+                 "y[n] = \[Sum] h[k] \[CenterDot] x[n-k],  k = 0, 1, ..., " <> 
+                 ToString[$CellContext`hLen - 1]}, Spacings -> 0.3], 11, 
+               Gray]}, Alignment -> Center]]], StandardForm],
+       ImageSizeCache->{900., {406.609470703125, 412.341404296875}}]}
+    },
+    DefaultBaseStyle->"Column",
+    GridBoxAlignment->{"Columns" -> {{Center}}},
+    GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}}],
+   "Column"],
+  DynamicModuleValues:>{}]], "Output",
+ CellChangeTimes->{3.984923173060299*^9, 3.9849234073432302`*^9, 
+  3.984923641509613*^9, 3.985086842907984*^9, 3.98508695256527*^9, 
+  3.9851754240639*^9},
+ CellLabel->
+  "Out[118]=",ExpressionUUID->"d227f06e-0896-4187-90f6-097a94d6e6d7"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+WindowSize->{1117, 958},
+WindowMargins->{{Automatic, 376}, {Automatic, 45}},
+FrontEndVersion->"14.3 for Mac OS X ARM (64-bit) (July 8, 2025)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"66d68252-258d-4830-bb8d-e54b6d0ecc49"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[554, 20, 220, 2, 66, "Section",ExpressionUUID->"046831f1-8b76-4e56-9dca-9f81a0e5043d"],
+Cell[CellGroupData[{
+Cell[799, 26, 880, 13, 52, "Section",ExpressionUUID->"6f0478f5-1aa9-4205-981d-9a2faa3f0076"],
+Cell[1682, 41, 779, 16, 68, "Subsubsection",ExpressionUUID->"ce4a2b52-5de3-4509-b6fd-f10d3d7c91bf"],
+Cell[CellGroupData[{
+Cell[2486, 61, 160, 3, 35, "Subsubsection",ExpressionUUID->"c6ee832c-07ad-4dcb-839f-55609c9583fe"],
+Cell[2649, 66, 759, 15, 55, "Text",ExpressionUUID->"02b2e6f9-b2d9-48a3-8c87-c614bc46dc31"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[3445, 86, 163, 3, 43, "Subsubsection",ExpressionUUID->"6c96e224-15a8-4f78-9133-0d056e12f09f"],
+Cell[3611, 91, 572, 11, 33, "Text",ExpressionUUID->"2dad5f2e-a966-453f-9544-b9e42258e89c"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[4220, 107, 210, 4, 43, "Subsubsection",ExpressionUUID->"f5654ee7-6bb4-4e0e-b9eb-1acfef97c3b3"],
+Cell[4433, 113, 2120, 31, 55, "Text",ExpressionUUID->"137c9b53-486b-4b32-98f4-9686c64addaf"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[6590, 149, 156, 3, 43, "Subsubsection",ExpressionUUID->"139662b3-c15c-4d8e-a4e5-4d3bcc5f2052"],
+Cell[6749, 154, 323, 6, 33, "Text",ExpressionUUID->"1e4bd6a3-685e-4607-a97d-bb63c08fd71a"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7109, 165, 155, 3, 43, "Subsubsection",ExpressionUUID->"c34c5df7-6006-4472-9eba-f10e7f719677"],
+Cell[CellGroupData[{
+Cell[7289, 172, 59885, 1398, 19, "Input",ExpressionUUID->"33b8d4f1-9846-4ba1-9cc3-7a0b2275ee87",
+ CellOpen->False],
+Cell[67177, 1572, 17423, 354, 907, "Output",ExpressionUUID->"d227f06e-0896-4187-90f6-097a94d6e6d7"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
