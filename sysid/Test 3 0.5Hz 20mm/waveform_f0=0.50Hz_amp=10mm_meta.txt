@@ -1,0 +1,11 @@
+csv: waveform_f0=0.50Hz_amp=10mm.csv
+fundamental_Hz: 0.5000
+stroke_mm: 20.00
+amp_mm: 10.00
+rpm: 242.4
+peak_velocity_mm_s: 20.20
+peak_flow_LPM: 6.09
+accel_mm_s2: 2020
+cycles: 10
+duration_s: 20.000
+fs: 1000.0
