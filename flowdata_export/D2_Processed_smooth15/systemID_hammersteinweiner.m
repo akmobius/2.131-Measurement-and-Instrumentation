@@ -66,7 +66,7 @@ title('Final Multi-State Metamaterial Fit');
 
 % View the residual correlation to check for remaining patterns
 figure;
-resid(combinedData, sys_mowordel);
+resid(combinedData, sys_model);
 %% % Use 8 files for training, 2 for testing (to check it's not overfitting)
 trainData = merge(dataList{1:8});
 valData = merge(dataList{9:10}); 
@@ -178,16 +178,34 @@ resid(valData, sys_model);
 % Note: The resid command uses its own built-in formatting. 
 % To pass validation, the lines must stay within the blue confidence regions.
 
-%% Plot 4: Nonlinearity Mapping (Input/Output Piecewise Functions)
-% This visualizes the physical "stiffening" of the metamaterial walls.
-figure('Color', 'w', 'Units', 'inches', 'Position', [7, 6, 6, 5]);
+%% Plot 4: Nonlinearity Mapping (Presentation Ready)
+figure('Color', 'w', 'Units', 'inches', 'Position', [1, 1, 9, 4.5]);
+
+% 1. Extract the primary input nonlinearity (Piecewise Linear)
+% sys_model.InputNonlinearity(1) is the map for Primary Flow
+nl_in = sys_model.InputNonlinearity(1);
+u_range = linspace(ranges(1,1), ranges(1,2), 100)';
+y_nl_in = evaluate(nl_in, u_range);
+
 subplot(1,2,1);
-plot(sys_model, 'input'); 
-title('\textbf{Input Nonlinearity Map}', 'Interpreter', 'latex');
-grid on;
+plot(u_range, y_nl_in, 'b', 'LineWidth', 2);
+grid on; hold on;
+xlabel('Measured Input Flow (L/min)', 'Interpreter', 'latex');
+ylabel('Effective Model Input', 'Interpreter', 'latex');
+title('\textbf{Input Nonlinearity (Material Stiffening)}', 'Interpreter', 'latex');
+
+% 2. Extract the output nonlinearity
+nl_out = sys_model.OutputNonlinearity;
+% Output range is based on the y-data in the validation set
+y_range_raw = [min(valExp.y), max(valExp.y)];
+y_eval_range = linspace(y_range_raw(1), y_range_raw(2), 100)';
+y_nl_out = evaluate(nl_out, y_eval_range);
 
 subplot(1,2,2);
-plot(sys_model, 'output');
-title('\textbf{Output Nonlinearity Map}', 'Interpreter', 'latex');
+plot(y_eval_range, y_nl_out, 'r', 'LineWidth', 2);
 grid on;
+xlabel('Linear Model Output', 'Interpreter', 'latex');
+ylabel('Final Predicted Flow (L/min)', 'Interpreter', 'latex');
+title('\textbf{Output Nonlinearity (Sensor/Saturation)}', 'Interpreter', 'latex');
 
+sgtitle('\textbf{Hammerstein-Wiener Static Nonlinearity Maps}', 'Interpreter', 'latex', 'FontSize', 14);
